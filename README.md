@@ -1,0 +1,3 @@
+# Hotels
+
+Hotels Bukkit Plugin
