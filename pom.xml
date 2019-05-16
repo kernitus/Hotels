@@ -23,7 +23,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>kernitus.plugin.Hotels</groupId>
     <artifactId>hotels</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.0</version>
     <name>Hotels</name>
     <description>Hotels Bukkit and Sponge plugin</description>
     <url>https://gitlab.com/kernitus/hotels</url>

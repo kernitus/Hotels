@@ -1,0 +1,15 @@
+main: kernitus.plugin.Hotels.HotelsMain
+name: Hotels
+version: ${project.version}
+author: kernitus
+description: Allows the making of hotels and renting of rooms
+website: https://gitlab.com/kernitus/hotels
+load: POSTWORLD
+api-version: 1.13
+
+depend: [Vault, WorldEdit, WorldGuard]
+
+commands:
+  Hotels:
+    description: Hotels's main command
+    aliases: [ht]
