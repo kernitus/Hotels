@@ -1,4 +1,4 @@
-main: kernitus.plugin.Hotels.HotelsMain
+main: kernitus.plugin.hotels.bukkit.HotelsMain
 name: Hotels
 version: ${project.version}
 author: kernitus
