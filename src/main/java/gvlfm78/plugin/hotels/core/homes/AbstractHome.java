@@ -18,43 +18,20 @@
  *
  */
 
-package kernitus.plugin.hotels.core.hotel;
+package kernitus.plugin.hotels.core.homes;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import java.util.Set;
-import java.util.UUID;
+import org.bukkit.Location;
 
-/**
- * Represents a hotel helper, who can build in a hotel region but cannot administer it
- */
-@Entity
-public class HotelHelper {
+import javax.persistence.Basic;
+import javax.persistence.MappedSuperclass;
 
-    @Id
-    private final UUID playerId;
-    @ManyToMany
-    private final Set<Hotel> hotels;
+@MappedSuperclass
+public abstract class AbstractHome {
 
-    public HotelHelper(UUID playerId, Set<Hotel> hotels) {
-        this.playerId = playerId;
-        this.hotels = hotels;
-    }
+    @Basic(optional = false)
+    protected int x, y, z;
+    @Basic(optional = false)
+    protected float pitch, yaw;
 
-    public UUID getPlayerId() {
-        return playerId;
-    }
-
-    public Set<Hotel> getHotels() {
-        return hotels;
-    }
-
-    public boolean add(Hotel hotel) {
-        return hotels.add(hotel);
-    }
-
-    public boolean remove(Hotel hotel) {
-        return hotels.remove(hotel);
-    }
+    public abstract Location getLocation();
 }

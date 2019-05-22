@@ -20,19 +20,101 @@
 
 package kernitus.plugin.hotels.core.hotel;
 
+import kernitus.plugin.hotels.core.homes.HotelHome;
 import kernitus.plugin.hotels.core.regions.HotelRegion;
 import kernitus.plugin.hotels.core.room.Room;
 
-import java.util.List;
+import javax.persistence.*;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Represents a Hotel object
  */
+@Entity
 public class Hotel {
 
-    private HotelOwner owner;
-    private HotelRegion region;
+    @Id //TODO UUID.randomUUID
+    private final UUID hotelId;
 
-    private final List<HotelHelper> helpers;
-    private final List<Room> rooms;
+    @ManyToOne (optional = false)
+    private HotelOwner hotelOwner;
+
+    @OneToOne (optional = false)
+    private HotelRegion hotelRegion;
+
+    @ManyToMany
+    private final Set<HotelHelper> hotelHelpers;
+
+    @ManyToOne
+    private final Set<Room> hotelRooms;
+
+    @Basic (optional = false)
+    private final UUID hotelWorldId;
+
+    @OneToOne
+    private HotelHome hotelHome;
+
+    @Basic  (optional = false)
+    private String hotelName;
+
+    public Hotel(UUID hotelId, HotelOwner hotelOwner, HotelRegion hotelRegion, Set<HotelHelper> hotelHelpers,
+                 Set<Room> hotelRooms, UUID hotelWorldId, HotelHome hotelHome, String hotelName) {
+        this.hotelId = hotelId;
+        this.hotelOwner = hotelOwner;
+        this.hotelRegion = hotelRegion;
+        this.hotelHelpers = hotelHelpers;
+        this.hotelRooms = hotelRooms;
+        this.hotelWorldId = hotelWorldId;
+        this.hotelHome = hotelHome;
+        this.hotelName = hotelName;
+    }
+
+    public UUID getHotelId() {
+        return hotelId;
+    }
+
+    public HotelOwner getHotelOwner() {
+        return hotelOwner;
+    }
+
+    public void setHotelOwner(HotelOwner hotelOwner) {
+        this.hotelOwner = hotelOwner;
+    }
+
+    public HotelRegion getHotelRegion() {
+        return hotelRegion;
+    }
+
+    public void setHotelRegion(HotelRegion hotelRegion) {
+        this.hotelRegion = hotelRegion;
+    }
+
+    public Set<HotelHelper> getHotelHelpers() {
+        return hotelHelpers;
+    }
+
+    public Set<Room> getHotelRooms() {
+        return hotelRooms;
+    }
+
+    public UUID getHotelWorldId() {
+        return hotelWorldId;
+    }
+
+    public HotelHome getHotelHome() {
+        return hotelHome;
+    }
+
+    public void setHotelHome(HotelHome hotelHome) {
+        this.hotelHome = hotelHome;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
 }

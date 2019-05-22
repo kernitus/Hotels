@@ -20,8 +20,34 @@
 
 package kernitus.plugin.hotels.core.hotel;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.Set;
+import java.util.UUID;
+
 /**
  * Represents the owner of a hotel
  */
+@Entity
 public class HotelOwner {
+
+    @Id
+    private final UUID playerId;
+
+    @OneToMany
+    private final Set<Hotel> hotels;
+
+    public HotelOwner(UUID playerId, Set<Hotel> hotels) {
+        this.playerId = playerId;
+        this.hotels = hotels;
+    }
+
+    public UUID getPlayerId() {
+        return playerId;
+    }
+
+    public Set<Hotel> getHotels() {
+        return hotels;
+    }
 }

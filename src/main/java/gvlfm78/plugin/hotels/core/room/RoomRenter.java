@@ -20,8 +20,39 @@
 
 package kernitus.plugin.hotels.core.room;
 
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.Set;
+import java.util.UUID;
+
 /**
  * Represents the renter of a room in a hotel
  */
 public class RoomRenter {
+
+    @Id
+    private final UUID playerId;
+    @OneToMany
+    private final Set<Room> rooms;
+
+    public RoomRenter(UUID playerId, Set<Room> rooms) {
+        this.playerId = playerId;
+        this.rooms = rooms;
+    }
+
+    public UUID getPlayerId() {
+        return playerId;
+    }
+
+    public Set<Room> getRooms() {
+        return rooms;
+    }
+
+    public boolean add(Room room) {
+        return rooms.add(room);
+    }
+
+    public boolean remove(Room room) {
+        return rooms.remove(room);
+    }
 }

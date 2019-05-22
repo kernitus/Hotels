@@ -20,8 +20,39 @@
 
 package kernitus.plugin.hotels.core.room;
 
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.Set;
+import java.util.UUID;
+
 /**
  * Represents a friend, who can use a room but not administer it
  */
 public class RoomFriend {
+
+    @Id
+    private final UUID playerId;
+    @ManyToMany
+    private final Set<Room> rooms;
+
+    public RoomFriend(UUID playerId, Set<Room> rooms) {
+        this.playerId = playerId;
+        this.rooms = rooms;
+    }
+
+    public UUID getPlayerId() {
+        return playerId;
+    }
+
+    public Set<Room> getRooms() {
+        return rooms;
+    }
+
+    public boolean add(Room room) {
+        return rooms.add(room);
+    }
+
+    public boolean remove(Room room) {
+        return rooms.remove(room);
+    }
 }

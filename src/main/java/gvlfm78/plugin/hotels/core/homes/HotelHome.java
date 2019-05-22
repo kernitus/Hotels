@@ -18,10 +18,31 @@
  *
  */
 
-package kernitus.plugin.hotels.core.room;
+package kernitus.plugin.hotels.core.homes;
 
-/**
- * Provides utility methods for a room's number
- */
-public class RoomNumber {
+import kernitus.plugin.hotels.core.hotel.Hotel;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+
+@Entity
+public class HotelHome extends AbstractHome {
+
+    @OneToOne (optional = false)
+    private final Hotel hotel;
+
+
+    public HotelHome(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public Location getLocation(){
+        return new Location(Bukkit.getWorld(hotel.getHotelWorldId()), x, y, z, yaw, pitch);
+    }
 }
