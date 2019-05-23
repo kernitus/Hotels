@@ -24,4 +24,7 @@ package kernitus.plugin.hotels.core.regions;
  * Provides an abstraction for manipulating a room's region
  */
 public class RoomRegion extends AbstractRegion {
+    public RoomRegion() {
+        super(id);
+    }
 }

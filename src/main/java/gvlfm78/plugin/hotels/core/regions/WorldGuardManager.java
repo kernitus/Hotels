@@ -21,44 +21,35 @@
 package kernitus.plugin.hotels.core.regions;
 
 import com.sk89q.worldedit.world.World;
-import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.managers.RemovalStrategy;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 
-import java.util.UUID;
+public class WorldGuardManager {
 
-/**
- * Provides an abstraction for interfacing Hotel's classes with WorldGuard regions
- */
-public abstract class AbstractRegion {
+    private static WorldGuard WGINSTANCE;
+    private static RegionContainer REGION_CONTAINER;
 
-    private ProtectedRegion region;
-    private final String REGION_PREFIX = "HOTELS_";
-
-    protected AbstractRegion(World world, String id) {
-        region = WorldGuardManager.getRegion(world,REGION_PREFIX + id);
+    public void initialise(){
+        WGINSTANCE = WorldGuard.getInstance();
+        REGION_CONTAINER = WGINSTANCE.getPlatform().getRegionContainer();
     }
 
-    private DefaultDomain getMembers(){
-        return region.getMembers();
+    private static RegionManager getRegionManager(World world){
+        return REGION_CONTAINER.get(world);
     }
 
-    private DefaultDomain getOwners(){
-        return region.getOwners();
+    public static ProtectedRegion getRegion(World world, String id){
+        return getRegionManager(world).getRegion(id);
     }
 
-    public void addMember(UUID playerId){
-        getMembers().addPlayer(playerId);
+    public static void addRegion(World world, ProtectedRegion region){
+        getRegionManager(world).addRegion(region);
     }
 
-    public void removeMember(UUID playerId){
-        getMembers().removePlayer(playerId);
-    }
-
-    public void addOwner(UUID playerId){
-        getOwners().addPlayer(playerId);
-    }
-
-    public void removeOwner(UUID playerId){
-        getOwners().removePlayer(playerId);
+    public static void removeRegion(World world, String id){
+        getRegionManager(world).removeRegion(id, RemovalStrategy.UNSET_PARENT_IN_CHILDREN);
     }
 }
