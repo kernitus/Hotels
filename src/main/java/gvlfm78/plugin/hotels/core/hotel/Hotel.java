@@ -34,33 +34,33 @@ import java.util.UUID;
 @Entity
 public class Hotel {
 
-    @Id //TODO UUID.randomUUID
-    private final UUID hotelId;
+    @Id
+    private UUID id;
 
     @ManyToOne (optional = false)
     private HotelOwner hotelOwner;
 
-    @OneToOne (optional = false)
-    private HotelRegion hotelRegion;
-
     @ManyToMany
-    private final Set<HotelHelper> hotelHelpers;
+    private Set<HotelHelper> hotelHelpers;
 
-    @ManyToOne
-    private final Set<Room> hotelRooms;
+    @OneToMany
+    private Set<Room> hotelRooms;
 
     @Basic (optional = false)
-    private final UUID hotelWorldId;
+    private UUID hotelWorldId;
 
     @OneToOne
     private HotelHome hotelHome;
 
-    @Basic  (optional = false)
+    @Basic (optional = false)
     private String hotelName;
 
-    public Hotel(UUID hotelId, HotelOwner hotelOwner, HotelRegion hotelRegion, Set<HotelHelper> hotelHelpers,
+    @Transient
+    private HotelRegion hotelRegion;
+
+    public Hotel(UUID id, HotelOwner hotelOwner, HotelRegion hotelRegion, Set<HotelHelper> hotelHelpers,
                  Set<Room> hotelRooms, UUID hotelWorldId, HotelHome hotelHome, String hotelName) {
-        this.hotelId = hotelId;
+        this.id = id;
         this.hotelOwner = hotelOwner;
         this.hotelRegion = hotelRegion;
         this.hotelHelpers = hotelHelpers;
@@ -70,8 +70,10 @@ public class Hotel {
         this.hotelName = hotelName;
     }
 
-    public UUID getHotelId() {
-        return hotelId;
+    protected Hotel(){}
+
+    public UUID getId() {
+        return id;
     }
 
     public HotelOwner getHotelOwner() {

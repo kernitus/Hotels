@@ -24,4 +24,5 @@ package kernitus.plugin.hotels.core.regions;
  * Provides an abstraction for manipulating a hotel's region
  */
 public class HotelRegion extends AbstractRegion {
+
 }

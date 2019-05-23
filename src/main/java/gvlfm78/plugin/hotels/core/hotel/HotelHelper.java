@@ -33,14 +33,16 @@ import java.util.UUID;
 public class HotelHelper {
 
     @Id
-    private final UUID playerId;
+    private UUID playerId;
     @ManyToMany
-    private final Set<Hotel> hotels;
+    private Set<Hotel> hotels;
 
     public HotelHelper(UUID playerId, Set<Hotel> hotels) {
         this.playerId = playerId;
         this.hotels = hotels;
     }
+
+    protected HotelHelper(){}
 
     public UUID getPlayerId() {
         return playerId;

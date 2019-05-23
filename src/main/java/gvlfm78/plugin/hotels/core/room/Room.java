@@ -36,18 +36,16 @@ import java.util.UUID;
 @Entity
 public class Room {
 
-    @Id //TODO UUID.randomUUID
-    private UUID roomId;
+    @Id
+    private UUID id;
     @ManyToOne (optional = false)
     private Hotel hotel;
     @Basic (optional = false)
     private int roomNumber;
     @ManyToOne
     private RoomRenter renter;
-    @OneToOne (optional = false)
-    private RoomRegion region;
     @OneToMany
-    private final Set<RoomFriend> roomFriends;
+    private Set<RoomFriend> roomFriends;
     @OneToOne
     private RoomHome roomHome;
     @Basic (optional = false)
@@ -59,10 +57,13 @@ public class Room {
     @Basic (optional = false)
     private boolean roomReset;
 
-    public Room(UUID roomId, Hotel hotel, int roomNumber, RoomRenter renter, RoomRegion region,
+    @Transient
+    private RoomRegion region;
+
+    public Room(UUID id, Hotel hotel, int roomNumber, RoomRenter renter, RoomRegion region,
                 Set<RoomFriend> roomFriends, RoomHome roomHome, Period rentTime, LocalDateTime expiryInstant,
                 double cost, boolean roomReset) {
-        this.roomId = roomId;
+        this.id = id;
         this.hotel = hotel;
         this.roomNumber = roomNumber;
         this.renter = renter;
@@ -75,20 +76,14 @@ public class Room {
         this.roomReset = roomReset;
     }
 
-    public UUID getRoomId() {
-        return roomId;
-    }
+    protected Room(){}
 
-    public void setRoomId(UUID roomId) {
-        this.roomId = roomId;
+    public UUID getId() {
+        return id;
     }
 
     public Hotel getHotel() {
         return hotel;
-    }
-
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
     }
 
     public int getRoomNumber() {

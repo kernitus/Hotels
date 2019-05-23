@@ -33,15 +33,17 @@ import java.util.UUID;
 public class HotelOwner {
 
     @Id
-    private final UUID playerId;
+    private UUID playerId;
 
     @OneToMany
-    private final Set<Hotel> hotels;
+    private Set<Hotel> hotels;
 
     public HotelOwner(UUID playerId, Set<Hotel> hotels) {
         this.playerId = playerId;
         this.hotels = hotels;
     }
+
+    protected HotelOwner() {}
 
     public UUID getPlayerId() {
         return playerId;

@@ -21,27 +21,29 @@
 package kernitus.plugin.hotels.core.homes;
 
 import kernitus.plugin.hotels.core.room.Room;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.UUID;
 
 @Entity
 public class RoomHome extends AbstractHome {
 
+    @Id
+    private UUID roomId;
+
     @OneToOne(optional = false)
-    private final Room room;
+    private Room room;
 
     public RoomHome(Room room) {
         this.room = room;
+        roomId = room.getId();
     }
+
+    protected RoomHome() {}
 
     public Room getRoom() {
         return room;
-    }
-
-    public Location getLocation(){
-        return new Location(Bukkit.getWorld(room.getHotel().getHotelWorldId()), x, y, z, yaw, pitch);
     }
 }
