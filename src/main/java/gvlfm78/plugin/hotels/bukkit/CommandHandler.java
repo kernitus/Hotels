@@ -20,20 +20,30 @@
 
 package kernitus.plugin.hotels.bukkit;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import kernitus.plugin.hotels.core.database.QueryTest;
+import kernitus.plugin.hotels.core.hotel.Hotel;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 
-public class HotelsMain extends JavaPlugin {
+import java.util.List;
 
+public class CommandHandler implements CommandExecutor  {
     @Override
-    public void onEnable(){
-        getLogger().info("Hotels v" + getDescription().getVersion() + " has been enabled");
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        getCommand("hotels").setExecutor(new CommandHandler());
+        List<Hotel> before = QueryTest.getAllHotels();
+        printHotels(before);
+        QueryTest.addHotel();
+        List<Hotel> after = QueryTest.getAllHotels();
+        printHotels(after);
 
+    return true;
     }
 
-    @Override
-    public void onDisable(){
-        getLogger().info("Hotels v" + getDescription().getVersion() + " has been disabled");
+    private void printHotels(List<Hotel> hotels){
+        for (Hotel hotel : hotels) {
+            System.out.println("ID: " + hotel.getId() + " Name: " + hotel.getHotelName());
+        }
     }
 }
