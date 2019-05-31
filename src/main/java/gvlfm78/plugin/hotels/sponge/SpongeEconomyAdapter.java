@@ -21,18 +21,18 @@ public class SpongeEconomyAdapter implements EconomyAdapter {
     private static EconomyService economy = Sponge.getServiceManager().provide(EconomyService.class).get();
 
     @Override
-    public double getBalance(OfflinePlayer player) {
-        return getAccount(player).getBalance(getDefaultCurrency()).doubleValue();
+    public BigDecimal getBalance(OfflinePlayer player) {
+        return getAccount(player).getBalance(getDefaultCurrency());
     }
 
     @Override
-    public boolean withdrawAmount(OfflinePlayer player, double amount) {
+    public boolean withdrawAmount(OfflinePlayer player, BigDecimal amount) {
         PluginContainer pluginContainer = HotelsMain.getContainer();
 
         EventContext eventContext = EventContext.builder().add(EventContextKeys.PLUGIN, pluginContainer).build();
 
         TransactionResult result = getAccount(player).withdraw(
-                getDefaultCurrency(), BigDecimal.valueOf(amount), Cause.of(eventContext, pluginContainer));
+                getDefaultCurrency(), amount, Cause.of(eventContext, pluginContainer));
 
         return result.getResult() == ResultType.SUCCESS;
     }
@@ -48,8 +48,8 @@ public class SpongeEconomyAdapter implements EconomyAdapter {
     }
 
     @Override
-    public String formatCurrency(double amount){
-        return economy.getDefaultCurrency().format(BigDecimal.valueOf(amount)).toPlain();
+    public String formatCurrency(BigDecimal amount){
+        return economy.getDefaultCurrency().format(amount).toPlain();
     }
 
     private static Currency getDefaultCurrency(){

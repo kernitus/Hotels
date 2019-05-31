@@ -2,9 +2,11 @@ package kernitus.plugin.hotels.core.economy;
 
 import org.bukkit.OfflinePlayer;
 
+import java.math.BigDecimal;
+
 public interface EconomyAdapter {
 
-    double getBalance(OfflinePlayer player);
+    BigDecimal getBalance(OfflinePlayer player);
 
     /**
      * Attempts to withdraw amount from player account
@@ -12,9 +14,9 @@ public interface EconomyAdapter {
      * @param amount Amount to withdraw
      * @return Whether we were able to withdraw amount
      */
-    boolean withdrawAmount(OfflinePlayer player, double amount);
+    boolean withdrawAmount(OfflinePlayer player, BigDecimal amount);
 
     String getCurrencyNameSingular();
     String getCurrencyNamePlural();
-    String formatCurrency(double amount);
+    String formatCurrency(BigDecimal amount);
 }
