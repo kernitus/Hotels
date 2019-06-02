@@ -20,6 +20,7 @@
 
 package kernitus.plugin.hotels.bukkit;
 
+import kernitus.plugin.hotels.core.Adapters;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class HotelsMain extends JavaPlugin {
@@ -30,6 +31,7 @@ public class HotelsMain extends JavaPlugin {
 
         getCommand("hotels").setExecutor(new CommandHandler());
 
+        Adapters.initialise(new BukkitEconomyAdapter());
     }
 
     @Override

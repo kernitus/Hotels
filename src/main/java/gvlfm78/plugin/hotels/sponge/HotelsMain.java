@@ -1,5 +1,6 @@
 package kernitus.plugin.hotels.sponge;
 
+import kernitus.plugin.hotels.core.Adapters;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
@@ -18,6 +19,8 @@ public class HotelsMain {
     @Listener
     public void onServerStart(GameStartedServerEvent event){
         logger.info("Hotels has been enabled");
+
+        Adapters.initialise(new SpongeEconomyAdapter());
     }
 
     public static PluginContainer getContainer(){
