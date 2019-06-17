@@ -29,6 +29,9 @@ public class HotelsMain extends JavaPlugin {
     public void onEnable(){
         getLogger().info("Hotels v" + getDescription().getVersion() + " has been enabled");
 
+        //For JPA classloader to work correctly
+        Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+
         getCommand("hotels").setExecutor(new CommandHandler());
 
         Adapters.initialise(new BukkitEconomyAdapter());

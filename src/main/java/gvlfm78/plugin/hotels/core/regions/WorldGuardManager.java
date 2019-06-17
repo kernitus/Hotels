@@ -29,13 +29,8 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 
 public class WorldGuardManager {
 
-    private static WorldGuard WGINSTANCE;
-    private static RegionContainer REGION_CONTAINER;
-
-    public void initialise(){
-        WGINSTANCE = WorldGuard.getInstance();
-        REGION_CONTAINER = WGINSTANCE.getPlatform().getRegionContainer();
-    }
+    private static WorldGuard WGINSTANCE = WorldGuard.getInstance();
+    private static RegionContainer REGION_CONTAINER = WGINSTANCE.getPlatform().getRegionContainer();
 
     private static RegionManager getRegionManager(World world){
         return REGION_CONTAINER.get(world);

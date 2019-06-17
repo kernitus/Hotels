@@ -23,6 +23,7 @@ package kernitus.plugin.hotels.core.hotel;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -41,6 +42,11 @@ public class HotelOwner {
     public HotelOwner(UUID playerId, Set<Hotel> hotels) {
         this.playerId = playerId;
         this.hotels = hotels;
+    }
+
+    public HotelOwner(UUID playerId) {
+        this.playerId = playerId;
+        hotels = new HashSet<Hotel>();
     }
 
     protected HotelOwner() {}

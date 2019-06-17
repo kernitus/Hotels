@@ -21,7 +21,7 @@
 package kernitus.plugin.hotels.bukkit;
 
 import kernitus.plugin.hotels.core.database.QueryTest;
-import kernitus.plugin.hotels.core.hotel.Hotel;
+import kernitus.plugin.hotels.core.hotel.HotelOwner;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,18 +32,12 @@ public class CommandHandler implements CommandExecutor  {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        List<Hotel> before = QueryTest.getAllHotels();
-        printHotels(before);
-        QueryTest.addHotel();
-        List<Hotel> after = QueryTest.getAllHotels();
-        printHotels(after);
+        System.out.println("Adding owner...");
+        QueryTest.addOwner();
+        List<HotelOwner> list = QueryTest.getAllOwners();
+        System.out.println("Added owner: " + list.size());
+        list.forEach(owner -> System.out.println(owner.getPlayerId()));
 
     return true;
-    }
-
-    private void printHotels(List<Hotel> hotels){
-        for (Hotel hotel : hotels) {
-            System.out.println("ID: " + hotel.getId() + " Name: " + hotel.getHotelName());
-        }
     }
 }

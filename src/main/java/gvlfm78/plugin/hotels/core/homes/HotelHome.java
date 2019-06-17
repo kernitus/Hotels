@@ -40,7 +40,7 @@ public class HotelHome extends AbstractHome {
         hotelId = hotel.getId();
     }
 
-    protected HotelHome() {}
+    public HotelHome() {}
 
     public Hotel getHotel() {
         return hotel;

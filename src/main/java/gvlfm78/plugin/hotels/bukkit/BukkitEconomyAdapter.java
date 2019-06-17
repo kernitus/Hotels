@@ -9,7 +9,11 @@ import java.math.BigDecimal;
 
 public class BukkitEconomyAdapter implements EconomyAdapter {
 
-    private static Economy economy = Bukkit.getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+    private static Economy economy;
+
+    public BukkitEconomyAdapter(){
+        economy = Bukkit.getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+    }
 
     @Override
     public BigDecimal getBalance(OfflinePlayer player) {

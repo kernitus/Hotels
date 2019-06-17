@@ -20,11 +20,14 @@
 
 package kernitus.plugin.hotels.core.regions;
 
+import com.sk89q.worldedit.world.World;
+
 /**
  * Provides an abstraction for manipulating a room's region
  */
 public class RoomRegion extends AbstractRegion {
-    public RoomRegion() {
-        super(id);
+
+    protected RoomRegion(World world, String id) {
+        super(world, id);
     }
 }

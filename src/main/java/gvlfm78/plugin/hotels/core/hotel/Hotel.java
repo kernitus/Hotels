@@ -25,6 +25,7 @@ import kernitus.plugin.hotels.core.regions.HotelRegion;
 import kernitus.plugin.hotels.core.room.Room;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -65,6 +66,17 @@ public class Hotel {
         this.hotelRegion = hotelRegion;
         this.hotelHelpers = hotelHelpers;
         this.hotelRooms = hotelRooms;
+        this.hotelWorldId = hotelWorldId;
+        this.hotelHome = hotelHome;
+        this.hotelName = hotelName;
+    }
+
+    public Hotel(UUID id, HotelOwner hotelOwner, HotelRegion hotelRegion, UUID hotelWorldId, HotelHome hotelHome, String hotelName) {
+        this.id = id;
+        this.hotelOwner = hotelOwner;
+        this.hotelRegion = hotelRegion;
+        this.hotelHelpers = new HashSet<>();
+        this.hotelRooms = new HashSet<>();
         this.hotelWorldId = hotelWorldId;
         this.hotelHome = hotelHome;
         this.hotelName = hotelName;
