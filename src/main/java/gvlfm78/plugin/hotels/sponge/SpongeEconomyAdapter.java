@@ -1,7 +1,7 @@
 package kernitus.plugin.hotels.sponge;
 
+import com.sk89q.worldguard.LocalPlayer;
 import kernitus.plugin.hotels.core.economy.EconomyAdapter;
-import org.bukkit.OfflinePlayer;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.EventContext;
@@ -14,6 +14,7 @@ import org.spongepowered.api.service.economy.transaction.ResultType;
 import org.spongepowered.api.service.economy.transaction.TransactionResult;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class SpongeEconomyAdapter implements EconomyAdapter {
 
@@ -21,12 +22,12 @@ public class SpongeEconomyAdapter implements EconomyAdapter {
     private static EconomyService economy = Sponge.getServiceManager().provide(EconomyService.class).get();
 
     @Override
-    public BigDecimal getBalance(OfflinePlayer player) {
+    public BigDecimal getBalance(LocalPlayer player) {
         return getAccount(player).getBalance(getDefaultCurrency());
     }
 
     @Override
-    public boolean withdrawAmount(OfflinePlayer player, BigDecimal amount) {
+    public boolean withdrawAmount(LocalPlayer player, BigDecimal amount) {
         PluginContainer pluginContainer = HotelsMain.getContainer();
 
         EventContext eventContext = EventContext.builder().add(EventContextKeys.PLUGIN, pluginContainer).build();
@@ -56,7 +57,11 @@ public class SpongeEconomyAdapter implements EconomyAdapter {
         return economy.getDefaultCurrency();
     }
 
-    private static UniqueAccount getAccount(OfflinePlayer player){
-        return economy.getOrCreateAccount(player.getUniqueId()).get();
+    private static UniqueAccount getAccount(UUID id){
+        return economy.getOrCreateAccount(id).get();
+    }
+
+    private static UniqueAccount getAccount(LocalPlayer player){
+        return getAccount(player.getUniqueId());
     }
 }
