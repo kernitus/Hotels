@@ -17,7 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.messaging;
+package kernitus.plugin.hotels.core.adapters;
 
 import com.sk89q.worldguard.LocalPlayer;
 

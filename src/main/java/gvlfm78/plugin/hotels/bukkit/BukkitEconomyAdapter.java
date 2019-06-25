@@ -2,7 +2,7 @@ package kernitus.plugin.hotels.bukkit;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
-import kernitus.plugin.hotels.core.economy.EconomyAdapter;
+import kernitus.plugin.hotels.core.adapters.EconomyAdapter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 

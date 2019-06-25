@@ -21,7 +21,7 @@ package kernitus.plugin.hotels.bukkit;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
-import kernitus.plugin.hotels.core.messaging.MessagingAdapter;
+import kernitus.plugin.hotels.core.adapters.MessagingAdapter;
 import org.bukkit.Bukkit;
 
 public class BukkitMessagingAdapter implements MessagingAdapter {

@@ -15,30 +15,27 @@
  *
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
  */
 
-package kernitus.plugin.hotels.bukkit;
+package kernitus.plugin.hotels.core.adapters;
 
-import kernitus.plugin.hotels.core.adapters.Adapters;
-import org.bukkit.plugin.java.JavaPlugin;
+import com.sk89q.worldguard.LocalPlayer;
 
-public class HotelsMain extends JavaPlugin {
+import java.math.BigDecimal;
 
-    @Override
-    public void onEnable(){
-        getLogger().info("Hotels v" + getDescription().getVersion() + " has been enabled");
+public interface EconomyAdapter {
 
-        //For JPA classloader to work correctly
-        Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+    BigDecimal getBalance(LocalPlayer player);
 
-        getCommand("hotels").setExecutor(new CommandHandler());
+    /**
+     * Attempts to withdraw amount from player account
+     * @param player Player whose account we will be acting on
+     * @param amount Amount to withdraw
+     * @return Whether we were able to withdraw amount
+     */
+    boolean withdrawAmount(LocalPlayer player, BigDecimal amount);
 
-        Adapters.initialise(new BukkitEconomyAdapter());
-    }
-
-    @Override
-    public void onDisable(){
-        getLogger().info("Hotels v" + getDescription().getVersion() + " has been disabled");
-    }
+    String getCurrencyNameSingular();
+    String getCurrencyNamePlural();
+    String formatCurrency(BigDecimal amount);
 }

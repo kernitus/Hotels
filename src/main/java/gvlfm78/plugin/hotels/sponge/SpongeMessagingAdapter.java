@@ -21,7 +21,7 @@ package kernitus.plugin.hotels.sponge;
 
 import com.sk89q.worldedit.sponge.SpongeAdapter;
 import com.sk89q.worldguard.LocalPlayer;
-import kernitus.plugin.hotels.core.messaging.MessagingAdapter;
+import kernitus.plugin.hotels.core.adapters.MessagingAdapter;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 

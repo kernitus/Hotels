@@ -15,30 +15,9 @@
  *
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
  */
 
-package kernitus.plugin.hotels.bukkit;
+package kernitus.plugin.hotels.core.adapters;
 
-import kernitus.plugin.hotels.core.adapters.Adapters;
-import org.bukkit.plugin.java.JavaPlugin;
-
-public class HotelsMain extends JavaPlugin {
-
-    @Override
-    public void onEnable(){
-        getLogger().info("Hotels v" + getDescription().getVersion() + " has been enabled");
-
-        //For JPA classloader to work correctly
-        Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
-
-        getCommand("hotels").setExecutor(new CommandHandler());
-
-        Adapters.initialise(new BukkitEconomyAdapter());
-    }
-
-    @Override
-    public void onDisable(){
-        getLogger().info("Hotels v" + getDescription().getVersion() + " has been disabled");
-    }
+public interface ConfigAdapter {
 }

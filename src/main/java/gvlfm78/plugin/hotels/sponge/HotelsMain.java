@@ -1,6 +1,6 @@
 package kernitus.plugin.hotels.sponge;
 
-import kernitus.plugin.hotels.core.Adapters;
+import kernitus.plugin.hotels.core.adapters.Adapters;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;

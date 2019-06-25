@@ -1,7 +1,7 @@
 package kernitus.plugin.hotels.sponge;
 
 import com.sk89q.worldguard.LocalPlayer;
-import kernitus.plugin.hotels.core.economy.EconomyAdapter;
+import kernitus.plugin.hotels.core.adapters.EconomyAdapter;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.EventContext;
