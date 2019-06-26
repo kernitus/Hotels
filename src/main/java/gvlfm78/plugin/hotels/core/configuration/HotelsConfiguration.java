@@ -28,81 +28,66 @@ import java.util.Set;
  */
 public interface HotelsConfiguration {
 
-    Set<String> getKeys(boolean b);
+    Set<String> getKeys(boolean deep);
 
-    Map<String, Object> getValues(boolean b);
+    Map<String, Object> getValues(boolean deep);
 
-    boolean contains(String s);
+    boolean contains(String path);
 
-    boolean contains(String s, boolean b);
+    boolean contains(String path, boolean ignoreDefault);
 
-    boolean isSet(String s);
+    boolean isSet(String path);
 
     String getCurrentPath();
 
     String getName();
 
-    Object get(String s);
+    Object get(String path);
 
-    Object get(String s, Object o);
+    Object get(String path, Object def);
 
-    String getString(String s);
+    String getString(String path);
 
-    String getString(String s, String s1);
+    String getString(String path, String def);
 
-    boolean isString(String s);
+    int getInt(String path);
 
-    int getInt(String s);
+    int getInt(String path, int def);
+    boolean getBoolean(String path);
 
-    int getInt(String s, int i);
+    boolean getBoolean(String path, boolean def);
 
-    boolean isInt(String s);
+    double getDouble(String path);
 
-    boolean getBoolean(String s);
+    double getDouble(String path, double def);
 
-    boolean getBoolean(String s, boolean b);
+    long getLong(String path);
 
-    boolean isBoolean(String s);
+    long getLong(String path, long def);
 
-    double getDouble(String s);
+    <T> List<T> getList(String path, Class<T> clazz);
 
-    double getDouble(String s, double v);
+    <T> List<T> getList(String path, Class<T> clazz, List<T> def);
 
-    boolean isDouble(String s);
+    List<String> getStringList(String path);
 
-    long getLong(String s);
+    List<Integer> getIntegerList(String path);
 
-    long getLong(String s, long l);
+    List<Boolean> getBooleanList(String path);
 
-    boolean isLong(String s);
+    List<Double> getDoubleList(String path);
 
-    List<?> getList(String s);
+    List<Float> getFloatList(String path);
 
-    List<?> getList(String s, List<?> list);
+    List<Long> getLongList(String path);
 
-    boolean isList(String s);
+    List<Byte> getByteList(String path);
 
-    List<String> getStringList(String s);
+    List<Character> getCharacterList(String path);
 
-    List<Integer> getIntegerList(String s);
+    List<Short> getShortList(String path);
 
-    List<Boolean> getBooleanList(String s);
+    <T> T getObject(String path, Class<T> clazz);
 
-    List<Double> getDoubleList(String s);
-
-    List<Float> getFloatList(String s);
-
-    List<Long> getLongList(String s);
-
-    List<Byte> getByteList(String s);
-
-    List<Character> getCharacterList(String s);
-
-    List<Short> getShortList(String s);
-
-    List<Map<?, ?>> getMapList(String s);
-
-    <T> T getObject(String s, Class<T> aClass);
-
-    <T> T getObject(String s, Class<T> aClass, T t);
+    <T> T getObject(String path, Class<T> clazz, T def);
 }

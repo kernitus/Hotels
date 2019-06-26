@@ -8,7 +8,7 @@
  *     by the Free Software Foundation, either version 3 of the License, or
  *     (at your option) any later version.
  *
- *      This program is distributed in the hope that it will be useful,
+ *     This program is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU Affero General Public License for more details.
@@ -17,180 +17,205 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.bukkit;
+package kernitus.plugin.hotels.sponge;
 
+import com.google.common.reflect.TypeToken;
 import kernitus.plugin.hotels.core.configuration.HotelsConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class BukkitHotelsConfiguration implements HotelsConfiguration {
+public class SpongeHotelsConfiguration implements HotelsConfiguration {
 
-    private final YamlConfiguration config;
+    private final ConfigurationNode node;
 
-    public BukkitHotelsConfiguration(YamlConfiguration config) {
-        this.config = config;
+    public SpongeHotelsConfiguration(ConfigurationNode node) {
+        this.node = node;
+    }
+
+    /**
+     * Converts from bukkit-style path to Sponge-style
+     * @param path The path using '.' separators
+     * @return The path as an array of node names
+     */
+    private String[] toSpongePath(String path){
+        return path.split(".");
     }
 
     @Override
     public Set<String> getKeys(boolean deep) {
-        return config.getKeys(deep);
+        Set<String> keys = new HashSet<>();
+        node.getChildrenList().forEach(key -> keys.add(key.toString()));
+        return keys;
     }
 
     @Override
     public Map<String, Object> getValues(boolean deep) {
-        return config.getValues(deep);
+        return null;
     }
 
     @Override
     public boolean contains(String path) {
-        return config.contains(path);
+        return node.getNode(toSpongePath(path)).getValue() != null;
     }
 
     @Override
     public boolean contains(String path, boolean ignoreDefault) {
-        return config.contains(path,ignoreDefault);
+        return false;
     }
 
     @Override
     public boolean isSet(String path) {
-        return config.isSet(path);
+        return false;
     }
 
     @Override
     public String getCurrentPath() {
-        return config.getCurrentPath();
+        return node.getPath().toString();
     }
 
     @Override
     public String getName() {
-        return config.getName();
+        return null;
     }
 
     @Override
     public Object get(String path) {
-        return config.get(path);
+        return node.getNode(toSpongePath(path)).getValue();
     }
 
     @Override
     public Object get(String path, Object def) {
-        return config.get(path,def);
+        return node.getNode(toSpongePath(path)).getValue(def);
     }
 
     @Override
     public String getString(String path) {
-        return config.getString(path);
+        return node.getNode(toSpongePath(path)).getString();
     }
 
     @Override
     public String getString(String path, String def) {
-        return config.getString(path,def);
+        return node.getNode(toSpongePath(path)).getString(def);
     }
 
     @Override
     public int getInt(String path) {
-        return config.getInt(path);
+        return node.getNode(toSpongePath(path)).getInt();
     }
 
     @Override
     public int getInt(String path, int def) {
-        return config.getInt(path,def);
+        return node.getNode(toSpongePath(path)).getInt(def);
     }
 
     @Override
     public boolean getBoolean(String path) {
-        return config.getBoolean(path);
+        return node.getNode(toSpongePath(path)).getBoolean();
     }
 
     @Override
     public boolean getBoolean(String path, boolean def) {
-        return config.getBoolean(path,def);
+        return node.getNode(toSpongePath(path)).getBoolean(def);
     }
 
     @Override
     public double getDouble(String path) {
-        return config.getDouble(path);
+        return node.getNode(toSpongePath(path)).getDouble();
     }
 
     @Override
     public double getDouble(String path, double def) {
-        return config.getDouble(path,def);
+        return node.getNode(toSpongePath(path)).getDouble(def);
     }
 
     @Override
     public long getLong(String path) {
-        return config.getLong(path);
+        return node.getNode(toSpongePath(path)).getLong();
     }
 
     @Override
     public long getLong(String path, long def) {
-        return config.getLong(path,def);
+        return node.getNode(toSpongePath(path)).getLong(def);
     }
 
     @Override
     public <T> List<T> getList(String path, Class<T> clazz) {
-        return (List<T>) config.getList(path);
+        try {
+            return node.getNode(toSpongePath(path)).getList(TypeToken.of(clazz));
+        } catch (ObjectMappingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public <T> List<T> getList(String path, Class<T> clazz, List<T> def) {
-        return (List<T>) config.getList(path,def);
+        try {
+            List<T> list = node.getNode(toSpongePath(path)).getList(TypeToken.of(clazz));
+            if(!list.isEmpty()) return list;
+        } catch (ObjectMappingException e) {
+            e.printStackTrace();
+        }
+        return def;
     }
 
     @Override
     public List<String> getStringList(String path) {
-        return config.getStringList(path);
+        return getList(path, String.class);
     }
 
     @Override
     public List<Integer> getIntegerList(String path) {
-        return config.getIntegerList(path);
+        return getList(path, Integer.class);
     }
 
     @Override
     public List<Boolean> getBooleanList(String path) {
-        return config.getBooleanList(path);
+        return getList(path, Boolean.class);
     }
 
     @Override
     public List<Double> getDoubleList(String path) {
-        return config.getDoubleList(path);
+        return getList(path, Double.class);
     }
 
     @Override
     public List<Float> getFloatList(String path) {
-        return config.getFloatList(path);
+        return getList(path, Float.class);
     }
 
     @Override
     public List<Long> getLongList(String path) {
-        return config.getLongList(path);
+        return getList(path, Long.class);
     }
 
     @Override
     public List<Byte> getByteList(String path) {
-        return config.getByteList(path);
+        return getList(path, Byte.class);
     }
 
     @Override
     public List<Character> getCharacterList(String path) {
-        return config.getCharacterList(path);
+        return getList(path, Character.class);
     }
 
     @Override
     public List<Short> getShortList(String path) {
-        return config.getShortList(path);
+        return getList(path, Short.class);
     }
 
     @Override
     public <T> T getObject(String path, Class<T> clazz) {
-        return config.getObject(path,clazz);
+        return (T) node.getNode(toSpongePath(path)).getValue();
     }
 
     @Override
     public <T> T getObject(String path, Class<T> clazz, T def) {
-        return config.getObject(path,clazz,def);
+        return (T) node.getNode(toSpongePath(path)).getValue(def);
     }
 }
