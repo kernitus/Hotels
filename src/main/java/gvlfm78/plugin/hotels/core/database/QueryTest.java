@@ -27,31 +27,27 @@ import kernitus.plugin.hotels.core.hotel.HotelOwner;
 import kernitus.plugin.hotels.core.regions.HotelRegion;
 import org.bukkit.Bukkit;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.UUID;
 
 public class QueryTest {
 
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("HotelsPU");
-
-    public static EntityManager getEntityManager(){
-        return entityManagerFactory.createEntityManager();
-    }
-
     public static List<Hotel> getAllHotels(){
-        TypedQuery<Hotel> findAllHotels = getEntityManager().createQuery("SELECT h FROM Hotel h", Hotel.class);
+        TypedQuery<Hotel> findAllHotels = Query.getEntityManager().createQuery("SELECT h FROM Hotel h", Hotel.class);
         return findAllHotels.getResultList();
     }
 
     public static List<HotelOwner> getAllOwners(){
-        TypedQuery<HotelOwner> query = getEntityManager().createQuery("SELECT o FROM HotelOwner o", HotelOwner.class);
+        TypedQuery<HotelOwner> query = Query.getEntityManager().createQuery("SELECT o FROM HotelOwner o", HotelOwner.class);
         return query.getResultList();
     }
 
     public static void addOwner(){
         HotelOwner owner = new HotelOwner(UUID.randomUUID());
-        EntityManager entityManager = getEntityManager();
+        EntityManager entityManager = Query.getEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
@@ -76,7 +72,7 @@ public class QueryTest {
                 "test"
                 );
 
-        EntityManager entityManager = getEntityManager();
+        EntityManager entityManager = Query.getEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {

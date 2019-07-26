@@ -17,15 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.adapters;
+package kernitus.plugin.hotels.core.exceptions;
 
-public class Adapters {
-
-    public static EconomyAdapter economy;
-    public static MessagingAdapter messaging;
-
-    public static void initialise(EconomyAdapter economyAdapter, MessagingAdapter messagingAdapter) {
-        economy = economyAdapter;
-        messaging = messagingAdapter;
-    }
+public class NoArgumentsException extends HotelsException {
 }

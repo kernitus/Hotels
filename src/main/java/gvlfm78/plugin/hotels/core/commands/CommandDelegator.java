@@ -17,15 +17,26 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.adapters;
+package kernitus.plugin.hotels.core.commands;
 
-public class Adapters {
+import com.sk89q.worldguard.LocalPlayer;
+import kernitus.plugin.hotels.core.adapters.Adapters;
+import kernitus.plugin.hotels.core.exceptions.NotEnoughArgumentsException;
 
-    public static EconomyAdapter economy;
-    public static MessagingAdapter messaging;
+/**
+ * Delegates hotels subcommands to correct handler class
+ */
+public class CommandDelegator {
 
-    public static void initialise(EconomyAdapter economyAdapter, MessagingAdapter messagingAdapter) {
-        economy = economyAdapter;
-        messaging = messagingAdapter;
+    public static void delegate(String subcommand, String[] args) throws NotEnoughArgumentsException {
+        delegate(subcommand,args,null);
+    }
+
+    public static void delegate(String subcommand, String[] args, LocalPlayer player) throws NotEnoughArgumentsException {
+        switch (subcommand) {
+            case "list": new HotelsListCommand().acceptAndExecute(args, player); break;
+            default:
+                Adapters.messaging.print("Hotels subcommand not recognised!");
+        }
     }
 }

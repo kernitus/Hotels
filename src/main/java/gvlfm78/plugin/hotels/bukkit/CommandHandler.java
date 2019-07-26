@@ -20,23 +20,31 @@
 
 package kernitus.plugin.hotels.bukkit;
 
-import kernitus.plugin.hotels.core.database.QueryTest;
-import kernitus.plugin.hotels.core.hotel.HotelOwner;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import kernitus.plugin.hotels.core.commands.CommandDelegator;
+import kernitus.plugin.hotels.core.exceptions.HotelsException;
+import kernitus.plugin.hotels.core.exceptions.NoArgumentsException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-import java.util.List;
+import java.util.Arrays;
 
 public class CommandHandler implements CommandExecutor  {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        System.out.println("Adding owner...");
-        QueryTest.addOwner();
-        List<HotelOwner> list = QueryTest.getAllOwners();
-        System.out.println("Added owner: " + list.size());
-        list.forEach(owner -> System.out.println(owner.getPlayerId()));
+        try {
+            if (args.length <= 0) throw new NoArgumentsException();
+            if(sender instanceof Player)
+                CommandDelegator.delegate(args[0],
+                        Arrays.copyOfRange(args,1,args.length),
+                        WorldGuardPlugin.inst().wrapPlayer((Player) sender));
+        } catch (HotelsException he){
+            he.printStackTrace();
+        }
 
     return true;
     }

@@ -19,6 +19,7 @@
 
 package kernitus.plugin.hotels.core.commands;
 
+import static kernitus.plugin.hotels.core.commands.HotelsCommandArgumentOptionality.TRUE;
 import static kernitus.plugin.hotels.core.commands.HotelsCommandArgumentStatus.*;
 
 /**
@@ -26,7 +27,7 @@ import static kernitus.plugin.hotels.core.commands.HotelsCommandArgumentStatus.*
  */
 public class HotelsCommandArgument {
 
-    private final boolean optional;
+    private final HotelsCommandArgumentOptionality optionality;
     /**
      * Label suggested if the command syntax is entered wrongly
      */
@@ -38,8 +39,8 @@ public class HotelsCommandArgument {
     private String input;
 
 
-    public HotelsCommandArgument(boolean optional, String suggestion) {
-        this.optional = optional;
+    public HotelsCommandArgument(HotelsCommandArgumentOptionality optionality, String suggestion) {
+        this.optionality = optionality;
         this.suggestion = suggestion;
     }
 
@@ -51,7 +52,7 @@ public class HotelsCommandArgument {
         return input;
     }
 
-    public void setInput(String input) {
+    public void setValue(String input) {
         this.input = input;
     }
 
@@ -61,8 +62,12 @@ public class HotelsCommandArgument {
      */
     public HotelsCommandArgumentStatus getStatus(){
         if(hasInput()) return FULL;
-        else if(optional) return IGNORE;
+        else if(optionality == TRUE) return IGNORE;
         else return EMPTY;
+    }
+
+    public HotelsCommandArgumentOptionality getOptionality() {
+        return optionality;
     }
 
     private boolean hasInput(){

@@ -17,15 +17,21 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.adapters;
+package kernitus.plugin.hotels.core.database;
 
-public class Adapters {
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-    public static EconomyAdapter economy;
-    public static MessagingAdapter messaging;
+public class Query {
 
-    public static void initialise(EconomyAdapter economyAdapter, MessagingAdapter messagingAdapter) {
-        economy = economyAdapter;
-        messaging = messagingAdapter;
+    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("HotelsPU");
+
+    public static EntityManager getEntityManager(){
+        return entityManagerFactory.createEntityManager();
+    }
+
+    public static void closeEntityManager(){
+        entityManagerFactory.close();
     }
 }

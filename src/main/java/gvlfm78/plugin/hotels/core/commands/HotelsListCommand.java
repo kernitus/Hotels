@@ -20,6 +20,15 @@
 package kernitus.plugin.hotels.core.commands;
 
 import com.google.common.collect.ImmutableSet;
+import kernitus.plugin.hotels.core.adapters.Adapters;
+import kernitus.plugin.hotels.core.database.Query;
+import kernitus.plugin.hotels.core.hotel.Hotel;
+
+import javax.persistence.TypedQuery;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+import static kernitus.plugin.hotels.core.commands.HotelsCommandArgumentOptionality.WORLD_NAME;
 
 /**
  * Lists the hotels in all/given world(s)
@@ -28,12 +37,14 @@ public class HotelsListCommand extends HotelsCommand {
 
     public HotelsListCommand() {
         super(new String[]{"hotellist", "hlist"},
-                ImmutableSet.of(new HotelsCommandArgument(true, "world")));
+                new LinkedHashSet<>(ImmutableSet.of(new HotelsCommandArgument(WORLD_NAME, "world"))));
     }
 
     @Override
     public void execute() {
-        //TODO fetch query with hotel list
-        //TODO print using Messaging system
+        TypedQuery<Hotel> query = Query.getEntityManager().createQuery("SELECT h FROM Hotel h", Hotel.class);
+        List<Hotel> resultList = query.getResultList();
+        if(resultList.size() < 1) Adapters.messaging.print("No hotels found!");
+        resultList.forEach(hotel -> Adapters.messaging.print("Hotel: " + hotel.getHotelName()));
     }
 }

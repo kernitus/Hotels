@@ -17,15 +17,26 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.adapters;
+package kernitus.plugin.hotels.core.commands;
 
-public class Adapters {
-
-    public static EconomyAdapter economy;
-    public static MessagingAdapter messaging;
-
-    public static void initialise(EconomyAdapter economyAdapter, MessagingAdapter messagingAdapter) {
-        economy = economyAdapter;
-        messaging = messagingAdapter;
-    }
+/**
+ * Whether a HotelsCommandArgument is optional, and what kind of optionality
+ */
+public enum HotelsCommandArgumentOptionality {
+    /**
+     * The argument is optional
+     */
+    TRUE,
+    /**
+     * The argument is not optional
+     */
+    FALSE,
+    /**
+     * The argument is optional for player as it can be inferred
+     */
+    PLAYER_NAME,
+    /**
+     * The argument is optional for players as it can be inferred
+     */
+    WORLD_NAME
 }

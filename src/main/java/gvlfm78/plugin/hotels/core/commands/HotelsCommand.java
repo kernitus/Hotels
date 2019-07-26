@@ -19,6 +19,10 @@
 
 package kernitus.plugin.hotels.core.commands;
 
+import com.sk89q.worldguard.LocalPlayer;
+import kernitus.plugin.hotels.core.exceptions.NotEnoughArgumentsException;
+
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -42,5 +46,51 @@ public abstract class HotelsCommand {
         return arguments.stream().anyMatch(argument -> argument.getStatus() == HotelsCommandArgumentStatus.EMPTY);
     }
 
+    /**
+     * Accepts subcommand arguments and sets them accordingly
+     * @param args The arguments for the subcommand, excluding the subcommand label itself
+     * @param player The player who sent the command, for optional arguments inferring
+     */
+    public void acceptArguments(String[] args, LocalPlayer player) throws NotEnoughArgumentsException {
+        Iterator<HotelsCommandArgument> i = arguments.iterator();
+        int j = 0;
+
+        while(j < args.length && i.hasNext()){
+            HotelsCommandArgument argument = i.next();
+            if(args[j] != null) argument.setValue(args[j]);
+
+            else { //Argument must be inferred from player
+                if (player == null) throw new NotEnoughArgumentsException();
+            else if (argument.getOptionality() == HotelsCommandArgumentOptionality.PLAYER_NAME)
+                    argument.setValue(player.getName());
+            else if (argument.getOptionality() == HotelsCommandArgumentOptionality.WORLD_NAME)
+                    argument.setValue(player.getWorld().getName());
+            else throw new NotEnoughArgumentsException();
+            }
+        }
+    }
+
+    /**
+     * Accepts subcommand arguments and executes the command
+     * @param args The arguments for the subcommand, excluding the subcommand label itself
+     */
+    public void acceptAndExecute(String[] args) throws NotEnoughArgumentsException {
+        acceptArguments(args, null);
+        execute();
+    }
+
+    /**
+     * Accepts subcommand arguments and executes the command
+     * @param args The arguments for the subcommand, excluding the subcommand label itself
+     * @param player The player who sent the command, for optional arguments inferring
+     */
+    public void acceptAndExecute(String[] args, LocalPlayer player) throws NotEnoughArgumentsException {
+        acceptArguments(args, player);
+        execute();
+    }
+
+    /**
+     * Execute the subcommand
+     */
     public abstract void execute();
 }
