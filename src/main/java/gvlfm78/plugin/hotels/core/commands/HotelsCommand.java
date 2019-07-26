@@ -20,6 +20,7 @@
 package kernitus.plugin.hotels.core.commands;
 
 import com.sk89q.worldguard.LocalPlayer;
+import kernitus.plugin.hotels.core.exceptions.NoPermissionException;
 import kernitus.plugin.hotels.core.exceptions.NotEnoughArgumentsException;
 
 import java.util.Iterator;
@@ -34,15 +35,28 @@ public abstract class HotelsCommand {
      * Labels and aliases for the subcommand
      */
     private String[] labels;
-    //TODO permission
     private Set<HotelsCommandArgument> arguments;
+    private HotelsPermission permission;
 
-    public HotelsCommand(String[] labels, Set<HotelsCommandArgument> arguments) {
+    public HotelsCommand(String[] labels, Set<HotelsCommandArgument> arguments, HotelsPermission permission) {
         this.labels = labels;
         this.arguments = arguments;
     }
 
-    private boolean canExecute(){
+    /**
+     * Check if the player has permission to execute the command
+     * @param player Player executing the command
+     * @return Whether the player can execute this command
+     */
+    private boolean hasPermission(LocalPlayer player){
+        return permission.checkPermission(player);
+    }
+
+    /**
+     * Checks whether the argument requirements are met
+     * @return Whether the command can be executed
+     */
+    private boolean hasRequiredArguments(){
         return arguments.stream().anyMatch(argument -> argument.getStatus() == HotelsCommandArgumentStatus.EMPTY);
     }
 
@@ -58,14 +72,13 @@ public abstract class HotelsCommand {
         while(j < args.length && i.hasNext()){
             HotelsCommandArgument argument = i.next();
             if(args[j] != null) argument.setValue(args[j]);
-
             else { //Argument must be inferred from player
                 if (player == null) throw new NotEnoughArgumentsException();
-            else if (argument.getOptionality() == HotelsCommandArgumentOptionality.PLAYER_NAME)
+                else if (argument.getOptionality() == HotelsCommandArgumentOptionality.PLAYER_NAME)
                     argument.setValue(player.getName());
-            else if (argument.getOptionality() == HotelsCommandArgumentOptionality.WORLD_NAME)
+                else if (argument.getOptionality() == HotelsCommandArgumentOptionality.WORLD_NAME)
                     argument.setValue(player.getWorld().getName());
-            else throw new NotEnoughArgumentsException();
+                else throw new NotEnoughArgumentsException();
             }
         }
     }
@@ -84,9 +97,10 @@ public abstract class HotelsCommand {
      * @param args The arguments for the subcommand, excluding the subcommand label itself
      * @param player The player who sent the command, for optional arguments inferring
      */
-    public void acceptAndExecute(String[] args, LocalPlayer player) throws NotEnoughArgumentsException {
+    public void acceptAndExecute(String[] args, LocalPlayer player) throws NotEnoughArgumentsException, NoPermissionException {
         acceptArguments(args, player);
-        execute();
+        if(hasPermission(player)) execute();
+        else throw new NoPermissionException();
     }
 
     /**

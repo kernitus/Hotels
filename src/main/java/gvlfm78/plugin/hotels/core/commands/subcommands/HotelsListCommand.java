@@ -17,10 +17,13 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.commands;
+package kernitus.plugin.hotels.core.commands.subcommands;
 
 import com.google.common.collect.ImmutableSet;
 import kernitus.plugin.hotels.core.adapters.Adapters;
+import kernitus.plugin.hotels.core.commands.HotelsCommand;
+import kernitus.plugin.hotels.core.commands.HotelsCommandArgument;
+import kernitus.plugin.hotels.core.commands.HotelsPermission;
 import kernitus.plugin.hotels.core.database.Query;
 import kernitus.plugin.hotels.core.hotel.Hotel;
 
@@ -37,7 +40,8 @@ public class HotelsListCommand extends HotelsCommand {
 
     public HotelsListCommand() {
         super(new String[]{"hotellist", "hlist"},
-                new LinkedHashSet<>(ImmutableSet.of(new HotelsCommandArgument(WORLD_NAME, "world"))));
+                new LinkedHashSet<>(ImmutableSet.of(new HotelsCommandArgument(WORLD_NAME, "world"))),
+                new HotelsPermission("hotels.hotellist"));
     }
 
     @Override

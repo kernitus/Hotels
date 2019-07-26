@@ -20,25 +20,19 @@
 package kernitus.plugin.hotels.core.commands;
 
 import com.sk89q.worldguard.LocalPlayer;
-import kernitus.plugin.hotels.core.adapters.Adapters;
-import kernitus.plugin.hotels.core.commands.subcommands.HotelsListCommand;
-import kernitus.plugin.hotels.core.exceptions.NoPermissionException;
-import kernitus.plugin.hotels.core.exceptions.NotEnoughArgumentsException;
 
 /**
- * Delegates hotels subcommands to correct handler class
+ * Represents a checkable Hotels permission
  */
-public class CommandDelegator {
+public class HotelsPermission {
 
-    public static void delegate(String subcommand, String[] args) throws NotEnoughArgumentsException, NoPermissionException {
-        delegate(subcommand,args,null);
+    private String permission;
+
+    public HotelsPermission(String permission){
+        this.permission = permission;
     }
 
-    public static void delegate(String subcommand, String[] args, LocalPlayer player) throws NotEnoughArgumentsException, NoPermissionException {
-        switch (subcommand) {
-            case "list": new HotelsListCommand().acceptAndExecute(args, player); break;
-            default:
-                Adapters.messaging.print("Hotels subcommand not recognised!");
-        }
+    public boolean checkPermission(LocalPlayer player){
+        return player.hasPermission(permission);
     }
 }
