@@ -23,9 +23,9 @@ import com.google.common.collect.ImmutableSet;
 import kernitus.plugin.hotels.core.adapters.Adapters;
 import kernitus.plugin.hotels.core.commands.HotelsCommand;
 import kernitus.plugin.hotels.core.commands.HotelsCommandArgument;
-import kernitus.plugin.hotels.core.commands.HotelsPermission;
 import kernitus.plugin.hotels.core.database.Query;
 import kernitus.plugin.hotels.core.hotel.Hotel;
+import kernitus.plugin.hotels.core.permissions.HotelsPermission;
 
 import javax.persistence.TypedQuery;
 import java.util.LinkedHashSet;
@@ -49,6 +49,6 @@ public class HotelsListCommand extends HotelsCommand {
         TypedQuery<Hotel> query = Query.getEntityManager().createQuery("SELECT h FROM Hotel h", Hotel.class);
         List<Hotel> resultList = query.getResultList();
         if(resultList.size() < 1) Adapters.messaging.print("No hotels found!");
-        resultList.forEach(hotel -> Adapters.messaging.print("Hotel: " + hotel.getHotelName()));
+        else resultList.forEach(hotel -> Adapters.messaging.print("Hotel: " + hotel.getHotelName()));
     }
 }

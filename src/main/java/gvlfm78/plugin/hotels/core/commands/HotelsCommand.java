@@ -22,6 +22,7 @@ package kernitus.plugin.hotels.core.commands;
 import com.sk89q.worldguard.LocalPlayer;
 import kernitus.plugin.hotels.core.exceptions.NoPermissionException;
 import kernitus.plugin.hotels.core.exceptions.NotEnoughArgumentsException;
+import kernitus.plugin.hotels.core.permissions.HotelsPermission;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -41,6 +42,7 @@ public abstract class HotelsCommand {
     public HotelsCommand(String[] labels, Set<HotelsCommandArgument> arguments, HotelsPermission permission) {
         this.labels = labels;
         this.arguments = arguments;
+        this.permission = permission;
     }
 
     /**
@@ -81,15 +83,6 @@ public abstract class HotelsCommand {
                 else throw new NotEnoughArgumentsException();
             }
         }
-    }
-
-    /**
-     * Accepts subcommand arguments and executes the command
-     * @param args The arguments for the subcommand, excluding the subcommand label itself
-     */
-    public void acceptAndExecute(String[] args) throws NotEnoughArgumentsException {
-        acceptArguments(args, null);
-        execute();
     }
 
     /**

@@ -17,7 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.commands;
+package kernitus.plugin.hotels.core.permissions;
 
 import com.sk89q.worldguard.LocalPlayer;
 
@@ -33,6 +33,9 @@ public class HotelsPermission {
     }
 
     public boolean checkPermission(LocalPlayer player){
-        return player.hasPermission(permission);
+        return player == null || //null if the console issued a command
+                player.hasPermission(permission);
     }
+
+    //TODO must include ways to check that player is owner of hotel and thus can run certain commands etc.
 }

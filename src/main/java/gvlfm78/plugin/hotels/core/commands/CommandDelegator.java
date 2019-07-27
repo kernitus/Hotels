@@ -35,6 +35,7 @@ public class CommandDelegator {
     }
 
     public static void delegate(String subcommand, String[] args, LocalPlayer player) throws NotEnoughArgumentsException, NoPermissionException {
+        Adapters.messaging.print("Subcommand: " + subcommand);
         switch (subcommand) {
             case "list": new HotelsListCommand().acceptAndExecute(args, player); break;
             default:

@@ -38,10 +38,15 @@ public class CommandHandler implements CommandExecutor  {
 
         try {
             if (args.length <= 0) throw new NoArgumentsException();
-            if(sender instanceof Player)
+
+            if(sender instanceof Player) {
                 CommandDelegator.delegate(args[0],
-                        Arrays.copyOfRange(args,1,args.length),
+                        Arrays.copyOfRange(args, 1, args.length),
                         WorldGuardPlugin.inst().wrapPlayer((Player) sender));
+            }
+            else {
+                CommandDelegator.delegate(args[0], Arrays.copyOfRange(args,1,args.length));
+            }
         } catch (HotelsException he){
             he.printStackTrace();
         }
