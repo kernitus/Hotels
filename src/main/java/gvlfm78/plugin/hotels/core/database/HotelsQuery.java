@@ -22,16 +22,25 @@ package kernitus.plugin.hotels.core.database;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.List;
 
-public class Query {
+public class HotelsQuery {
 
     private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("HotelsPU");
 
-    public static EntityManager getEntityManager(){
+    static EntityManager getEntityManager(){
         return entityManagerFactory.createEntityManager();
     }
 
     public static void closeEntityManager(){
         entityManagerFactory.close();
+    }
+
+
+    public static <T> List<T> runSelectQuery(String typedQuery, Class<T> clazz){
+        EntityManager entityManager = HotelsQuery.getEntityManager();
+        List<T> resultList = entityManager.createQuery(typedQuery, clazz).getResultList();
+        entityManager.close();
+        return resultList;
     }
 }

@@ -21,7 +21,7 @@
 package kernitus.plugin.hotels.bukkit;
 
 import kernitus.plugin.hotels.core.adapters.Adapters;
-import kernitus.plugin.hotels.core.database.Query;
+import kernitus.plugin.hotels.core.database.HotelsQuery;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class HotelsMain extends JavaPlugin {
@@ -40,7 +40,8 @@ public class HotelsMain extends JavaPlugin {
 
     @Override
     public void onDisable(){
-        Query.closeEntityManager();
+        Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+        HotelsQuery.closeEntityManager();
         getLogger().info("Hotels v" + getDescription().getVersion() + " has been disabled");
     }
 }

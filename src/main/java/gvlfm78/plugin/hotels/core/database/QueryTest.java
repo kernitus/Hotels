@@ -29,25 +29,22 @@ import org.bukkit.Bukkit;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.UUID;
 
 public class QueryTest {
 
     public static List<Hotel> getAllHotels(){
-        TypedQuery<Hotel> findAllHotels = Query.getEntityManager().createQuery("SELECT h FROM Hotel h", Hotel.class);
-        return findAllHotels.getResultList();
+       return HotelsQuery.runSelectQuery("SELECT h FROM Hotel h", Hotel.class);
     }
 
     public static List<HotelOwner> getAllOwners(){
-        TypedQuery<HotelOwner> query = Query.getEntityManager().createQuery("SELECT o FROM HotelOwner o", HotelOwner.class);
-        return query.getResultList();
+        return HotelsQuery.runSelectQuery("SELECT o FROM HotelOwner o", HotelOwner.class);
     }
 
     public static void addOwner(){
         HotelOwner owner = new HotelOwner(UUID.randomUUID());
-        EntityManager entityManager = Query.getEntityManager();
+        EntityManager entityManager = HotelsQuery.getEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
@@ -72,7 +69,7 @@ public class QueryTest {
                 "test"
                 );
 
-        EntityManager entityManager = Query.getEntityManager();
+        EntityManager entityManager = HotelsQuery.getEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {

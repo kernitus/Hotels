@@ -19,16 +19,35 @@
 
 package kernitus.plugin.hotels.core.commands;
 
+import com.google.common.collect.ImmutableSet;
 import com.sk89q.worldguard.LocalPlayer;
 import kernitus.plugin.hotels.core.adapters.Adapters;
 import kernitus.plugin.hotels.core.commands.subcommands.HotelsListCommand;
 import kernitus.plugin.hotels.core.exceptions.NoPermissionException;
 import kernitus.plugin.hotels.core.exceptions.NotEnoughArgumentsException;
 
+import java.util.HashMap;
+import java.util.Set;
+
 /**
  * Delegates hotels subcommands to correct handler class
  */
 public class CommandDelegator {
+
+    private static final HashMap<String,HotelsCommand> hotelsCommands = new HashMap<>();
+
+    static {
+        //Create a set of all Hotels Subcommands
+        Set<HotelsCommand> commands = ImmutableSet.of(
+                new HotelsListCommand()
+        );
+
+        //For each subcommand, add the single instance of the subcommand for each label alias to the HashMap
+        commands.forEach(command -> {
+            for (String label : command.getLabels())
+                hotelsCommands.put(label,command);
+        });
+    }
 
     public static void delegate(String subcommand, String[] args) throws NotEnoughArgumentsException, NoPermissionException {
         delegate(subcommand,args,null);
@@ -36,10 +55,10 @@ public class CommandDelegator {
 
     public static void delegate(String subcommand, String[] args, LocalPlayer player) throws NotEnoughArgumentsException, NoPermissionException {
         Adapters.messaging.print("Subcommand: " + subcommand);
-        switch (subcommand) {
-            case "list": new HotelsListCommand().acceptAndExecute(args, player); break;
-            default:
-                Adapters.messaging.print("Hotels subcommand not recognised!");
-        }
+
+        if(hotelsCommands.containsKey(subcommand))
+            hotelsCommands.get(subcommand).acceptAndExecute(args, player);
+        else
+            Adapters.messaging.print("Hotels subcommand not recognised!");
     }
 }

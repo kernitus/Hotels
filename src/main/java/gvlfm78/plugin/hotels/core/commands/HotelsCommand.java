@@ -35,9 +35,9 @@ public abstract class HotelsCommand {
     /**
      * Labels and aliases for the subcommand
      */
-    private String[] labels;
-    private Set<HotelsCommandArgument> arguments;
-    private HotelsPermission permission;
+    private final String[] labels;
+    private final Set<HotelsCommandArgument> arguments;
+    private final HotelsPermission permission;
 
     public HotelsCommand(String[] labels, Set<HotelsCommandArgument> arguments, HotelsPermission permission) {
         this.labels = labels;
@@ -100,4 +100,8 @@ public abstract class HotelsCommand {
      * Execute the subcommand
      */
     public abstract void execute();
+
+    public String[] getLabels() {
+        return labels;
+    }
 }
