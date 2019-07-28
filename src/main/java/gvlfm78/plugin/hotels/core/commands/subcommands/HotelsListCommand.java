@@ -45,7 +45,7 @@ public class HotelsListCommand extends HotelsCommand {
 
     @Override
     public void execute() {
-        List<Hotel> resultList = HotelsQuery.runSelectQuery("SELECT h FROM Hotel h", Hotel.class);
+        List<Hotel> resultList = HotelsQuery.getAll(Hotel.class);
 
         if(resultList.size() < 1) Adapters.messaging.print("No hotels found!");
         else resultList.forEach(hotel -> Adapters.messaging.print("Hotel: " + hotel.getHotelName()));

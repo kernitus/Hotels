@@ -36,6 +36,11 @@ public class HotelsQuery {
         entityManagerFactory.close();
     }
 
+    public static <T> List<T> getAll(Class<T> clazz){
+        String className = clazz.getSimpleName();
+        String queryString = "SELECT a FROM " + className + " a";
+        return runSelectQuery(queryString,clazz);
+    }
 
     public static <T> List<T> runSelectQuery(String typedQuery, Class<T> clazz){
         EntityManager entityManager = HotelsQuery.getEntityManager();
