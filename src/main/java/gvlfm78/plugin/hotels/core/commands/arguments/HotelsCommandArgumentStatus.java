@@ -17,7 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.commands;
+package kernitus.plugin.hotels.core.commands.arguments;
 
 /**
  * The current status of a HotelsCommandArgument

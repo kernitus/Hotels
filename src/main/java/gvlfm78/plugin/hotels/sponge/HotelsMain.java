@@ -20,7 +20,7 @@ public class HotelsMain {
     public void onServerStart(GameStartedServerEvent event){
         logger.info("Hotels has been enabled");
 
-        Adapters.initialise(new SpongeEconomyAdapter(), new SpongeMessagingAdapter());
+        Adapters.initialise(new SpongeEconomyAdapter(), new SpongeMessagingAdapter(), new SpongeUtilitiesAdapter());
     }
 
     public static PluginContainer getContainer(){

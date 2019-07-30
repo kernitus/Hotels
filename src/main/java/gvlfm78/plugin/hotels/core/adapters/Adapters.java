@@ -23,9 +23,11 @@ public class Adapters {
 
     public static EconomyAdapter economy;
     public static MessagingAdapter messaging;
+    public static UtilitiesAdapter utilities;
 
-    public static void initialise(EconomyAdapter economyAdapter, MessagingAdapter messagingAdapter) {
+    public static void initialise(EconomyAdapter economyAdapter, MessagingAdapter messagingAdapter, UtilitiesAdapter utilitiesAdapter) {
         economy = economyAdapter;
         messaging = messagingAdapter;
+        Adapters.utilities = utilitiesAdapter;
     }
 }

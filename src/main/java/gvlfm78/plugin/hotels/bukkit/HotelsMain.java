@@ -35,7 +35,7 @@ public class HotelsMain extends JavaPlugin {
 
         getCommand("hotels").setExecutor(new CommandHandler());
 
-        Adapters.initialise(new BukkitEconomyAdapter(), new BukkitMessagingAdapter());
+        Adapters.initialise(new BukkitEconomyAdapter(), new BukkitMessagingAdapter(), new BukkitUtilitiesAdapter());
     }
 
     @Override

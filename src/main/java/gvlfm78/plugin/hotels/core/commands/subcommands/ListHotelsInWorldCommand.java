@@ -22,32 +22,39 @@ package kernitus.plugin.hotels.core.commands.subcommands;
 import com.google.common.collect.ImmutableSet;
 import kernitus.plugin.hotels.core.adapters.Adapters;
 import kernitus.plugin.hotels.core.commands.HotelsCommand;
-import kernitus.plugin.hotels.core.commands.HotelsCommandArgument;
+import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgument;
 import kernitus.plugin.hotels.core.database.HotelsQuery;
+import kernitus.plugin.hotels.core.exceptions.WorldNonExistentException;
 import kernitus.plugin.hotels.core.hotel.Hotel;
 import kernitus.plugin.hotels.core.permissions.HotelsPermission;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import static kernitus.plugin.hotels.core.commands.HotelsCommandArgumentOptionality.WORLD_NAME;
+import static kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgumentOptionality.WORLD_NAME;
 
 /**
  * Lists the hotels in all/given world(s)
  */
-public class HotelsListCommand extends HotelsCommand {
+public class ListHotelsInWorldCommand extends HotelsCommand {
 
-    public HotelsListCommand() {
+    public ListHotelsInWorldCommand() {
         super(new String[]{"hotellist", "hlist", "list"},
                 new LinkedHashSet<>(ImmutableSet.of(new HotelsCommandArgument(WORLD_NAME, "world"))),
-                new HotelsPermission("hotels.hotellist"));
+                new HotelsPermission("hotels.hotellist.world"));
     }
 
     @Override
-    public void execute() {
-        List<Hotel> resultList = HotelsQuery.getAll(Hotel.class);
+    public void execute() throws WorldNonExistentException {
+        Optional<UUID> worldId = Adapters.utilities.worldNameToId(getArgument(0).getValue());
+        if(!worldId.isPresent()) throw new WorldNonExistentException();
 
-        if(resultList.size() < 1) Adapters.messaging.print("No hotels found!");
+        List<Hotel> resultList = HotelsQuery.runSelectQuery("SELECT h FROM Hotel h WHERE hotelWorldId='"
+        + worldId.get() + "'", Hotel.class);
+
+        if(resultList.size() < 1) Adapters.messaging.print("No hotels found in this world!");
         else resultList.forEach(hotel -> Adapters.messaging.print("Hotel: " + hotel.getHotelName()));
     }
 }

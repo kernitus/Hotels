@@ -17,10 +17,10 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.commands;
+package kernitus.plugin.hotels.core.commands.arguments;
 
-import static kernitus.plugin.hotels.core.commands.HotelsCommandArgumentOptionality.TRUE;
-import static kernitus.plugin.hotels.core.commands.HotelsCommandArgumentStatus.*;
+import static kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgumentOptionality.TRUE;
+import static kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgumentStatus.*;
 
 /**
  * Represents an argument to a subcommand of the /hotels command
@@ -48,7 +48,7 @@ public class HotelsCommandArgument {
         return suggestion;
     }
 
-    public String getInput() {
+    public String getValue() {
         return input;
     }
 

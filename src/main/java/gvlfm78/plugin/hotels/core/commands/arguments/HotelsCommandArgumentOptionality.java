@@ -17,7 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.commands;
+package kernitus.plugin.hotels.core.commands.arguments;
 
 /**
  * Whether a HotelsCommandArgument is optional, and what kind of optionality
