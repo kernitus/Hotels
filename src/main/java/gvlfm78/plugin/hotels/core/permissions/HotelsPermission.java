@@ -21,6 +21,8 @@ package kernitus.plugin.hotels.core.permissions;
 
 import com.sk89q.worldguard.LocalPlayer;
 
+import java.util.Optional;
+
 /**
  * Represents a checkable Hotels permission
  */
@@ -32,9 +34,8 @@ public class HotelsPermission {
         this.permission = permission;
     }
 
-    public boolean checkPermission(LocalPlayer player){
-        return player == null || //null if the console issued a command
-                player.hasPermission(permission);
+    public boolean checkPermission(Optional<LocalPlayer> playerOptional){
+        return !playerOptional.isPresent() || playerOptional.get().hasPermission(permission);
     }
 
     //TODO must include ways to check that player is owner of hotel and thus can run certain commands etc.
