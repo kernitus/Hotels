@@ -24,15 +24,14 @@ import com.sk89q.worldguard.LocalPlayer;
 import kernitus.plugin.hotels.core.adapters.MessagingAdapter;
 import org.bukkit.Bukkit;
 
+import java.util.Optional;
+
 public class BukkitMessagingAdapter implements MessagingAdapter {
 
     @Override
-    public void send(String message, LocalPlayer player) {
-        BukkitAdapter.adapt(player).sendMessage(message);
-    }
-
-    @Override
-    public void print(String message) {
-        Bukkit.getLogger().info(message);
+    public void send(String message, Optional<LocalPlayer> player) {
+        if(player.isPresent())
+            BukkitAdapter.adapt(player.get()).sendMessage(message);
+        else Bukkit.getLogger().info(message);
     }
 }

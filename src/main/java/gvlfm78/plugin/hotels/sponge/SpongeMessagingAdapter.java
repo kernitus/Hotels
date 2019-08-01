@@ -25,14 +25,15 @@ import kernitus.plugin.hotels.core.adapters.MessagingAdapter;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 
+import java.util.Optional;
+
 public class SpongeMessagingAdapter implements MessagingAdapter {
-    @Override
-    public void send(String message, LocalPlayer player) {
-        MessageChannel.fixed(SpongeAdapter.adapt(player)).send(Text.of(message));
-    }
 
     @Override
-    public void print(String message) {
-        System.out.println(message);
+    public void send(String message, Optional<LocalPlayer> player) {
+        if(player.isPresent())
+        MessageChannel.fixed(SpongeAdapter.adapt(player.get())).send(Text.of(message));
+        else
+            MessageChannel.TO_CONSOLE.send(Text.of(message));
     }
 }

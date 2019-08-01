@@ -21,36 +21,23 @@ package kernitus.plugin.hotels.core.adapters;
 
 import com.sk89q.worldguard.LocalPlayer;
 
+import java.util.Optional;
+
 public interface MessagingAdapter {
 
     /**
-     * Send a message to a player
+     * Send a message to a player, or console if null
      * @param message Message to send
      * @param player Player the message should be sent to
      */
-    void send(String message, LocalPlayer player);
-
-    /**
-     * Prints a message in the console
-     * @param message Message to print
-     */
-    void print(String message);
-
-    /**
-     * Prints a debug message in the console, if debug is enabled
-     * @param message Message to print
-     */
-    default void debug(String message){
-        //TODO if debug enabled
-        print(MessagingAdapter.prependDebug(message));
-    }
+    void send(String message, Optional<LocalPlayer> player);
 
     /**
      * Sends a debug message to a player, if debug is enabled
      * @param message Message to send
      * @param player Player the message should be sent to
      */
-    default void debug(String message, LocalPlayer player){
+    default void debug(String message, Optional<LocalPlayer> player){
         //TODO if debug enabled
         send(MessagingAdapter.prependDebug(message), player);
     }
