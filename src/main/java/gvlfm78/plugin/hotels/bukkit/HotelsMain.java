@@ -20,7 +20,6 @@
 
 package kernitus.plugin.hotels.bukkit;
 
-import kernitus.plugin.hotels.core.adapters.Adapters;
 import kernitus.plugin.hotels.core.database.HotelsQuery;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -33,9 +32,7 @@ public class HotelsMain extends JavaPlugin {
         //For JPA classloader to work correctly
         Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
 
-        getCommand("hotels").setExecutor(new CommandHandler());
-
-        Adapters.initialise(new BukkitEconomyAdapter(), new BukkitMessagingAdapter(), new BukkitUtilitiesAdapter());
+        getCommand("hotels").setExecutor(new CommandListener());
     }
 
     @Override

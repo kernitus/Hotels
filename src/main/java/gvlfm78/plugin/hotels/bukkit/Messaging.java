@@ -17,32 +17,38 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.adapters;
+package kernitus.plugin.hotels.bukkit;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
+import org.bukkit.Bukkit;
 
 import java.util.Optional;
 
-public interface MessagingAdapter {
+public class Messaging {
 
     /**
      * Send a message to a player, or console if null
      * @param message Message to send
      * @param player Player the message should be sent to
      */
-    void send(String message, Optional<LocalPlayer> player);
+    public static void send(String message, Optional<LocalPlayer> player) {
+        if(player.isPresent())
+            BukkitAdapter.adapt(player.get()).sendMessage(message);
+        else Bukkit.getLogger().info(message);
+    }
 
     /**
      * Sends a debug message to a player, if debug is enabled
      * @param message Message to send
      * @param player Player the message should be sent to
      */
-    default void debug(String message, Optional<LocalPlayer> player){
+    public static void debug(String message, Optional<LocalPlayer> player){
         //TODO if debug enabled
-        send(MessagingAdapter.prependDebug(message), player);
+        send(prependDebug(message), player);
     }
 
-    static String prependDebug(String message){
+    private static String prependDebug(String message){
         return "[DEBUG] " + message;
     }
 }

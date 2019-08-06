@@ -19,177 +19,179 @@
 
 package kernitus.plugin.hotels.bukkit;
 
-import kernitus.plugin.hotels.core.configuration.HotelsConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class BukkitHotelsConfiguration implements HotelsConfiguration {
+/**
+ * YAML Configuration handler
+ */
+public class HotelsConfiguration {
 
     private final YamlConfiguration config;
 
-    public BukkitHotelsConfiguration(YamlConfiguration config) {
+    public HotelsConfiguration(YamlConfiguration config) {
         this.config = config;
     }
 
-    @Override
+    
     public Set<String> getKeys(boolean deep) {
         return config.getKeys(deep);
     }
 
-    @Override
+    
     public Map<String, Object> getValues(boolean deep) {
         return config.getValues(deep);
     }
 
-    @Override
+    
     public boolean contains(String path) {
         return config.contains(path);
     }
 
-    @Override
+    
     public boolean contains(String path, boolean ignoreDefault) {
         return config.contains(path,ignoreDefault);
     }
 
-    @Override
+    
     public boolean isSet(String path) {
         return config.isSet(path);
     }
 
-    @Override
+    
     public String getCurrentPath() {
         return config.getCurrentPath();
     }
 
-    @Override
+    
     public String getName() {
         return config.getName();
     }
 
-    @Override
+    
     public Object get(String path) {
         return config.get(path);
     }
 
-    @Override
+    
     public Object get(String path, Object def) {
         return config.get(path,def);
     }
 
-    @Override
+    
     public String getString(String path) {
         return config.getString(path);
     }
 
-    @Override
+    
     public String getString(String path, String def) {
         return config.getString(path,def);
     }
 
-    @Override
+    
     public int getInt(String path) {
         return config.getInt(path);
     }
 
-    @Override
+    
     public int getInt(String path, int def) {
         return config.getInt(path,def);
     }
 
-    @Override
+    
     public boolean getBoolean(String path) {
         return config.getBoolean(path);
     }
 
-    @Override
+    
     public boolean getBoolean(String path, boolean def) {
         return config.getBoolean(path,def);
     }
 
-    @Override
+    
     public double getDouble(String path) {
         return config.getDouble(path);
     }
 
-    @Override
+    
     public double getDouble(String path, double def) {
         return config.getDouble(path,def);
     }
 
-    @Override
+    
     public long getLong(String path) {
         return config.getLong(path);
     }
 
-    @Override
+    
     public long getLong(String path, long def) {
         return config.getLong(path,def);
     }
 
-    @Override
+    
     public <T> List<T> getList(String path, Class<T> clazz) {
         return (List<T>) config.getList(path);
     }
 
-    @Override
+    
     public <T> List<T> getList(String path, Class<T> clazz, List<T> def) {
         return (List<T>) config.getList(path,def);
     }
 
-    @Override
+    
     public List<String> getStringList(String path) {
         return config.getStringList(path);
     }
 
-    @Override
+    
     public List<Integer> getIntegerList(String path) {
         return config.getIntegerList(path);
     }
 
-    @Override
+    
     public List<Boolean> getBooleanList(String path) {
         return config.getBooleanList(path);
     }
 
-    @Override
+    
     public List<Double> getDoubleList(String path) {
         return config.getDoubleList(path);
     }
 
-    @Override
+    
     public List<Float> getFloatList(String path) {
         return config.getFloatList(path);
     }
 
-    @Override
+    
     public List<Long> getLongList(String path) {
         return config.getLongList(path);
     }
 
-    @Override
+    
     public List<Byte> getByteList(String path) {
         return config.getByteList(path);
     }
 
-    @Override
+    
     public List<Character> getCharacterList(String path) {
         return config.getCharacterList(path);
     }
 
-    @Override
+    
     public List<Short> getShortList(String path) {
         return config.getShortList(path);
     }
 
-    @Override
+    
     public <T> T getObject(String path, Class<T> clazz) {
         return config.getObject(path,clazz);
     }
 
-    @Override
+    
     public <T> T getObject(String path, Class<T> clazz, T def) {
         return config.getObject(path,clazz,def);
     }

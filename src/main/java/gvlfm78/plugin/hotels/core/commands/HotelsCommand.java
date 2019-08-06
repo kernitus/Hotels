@@ -98,14 +98,14 @@ public abstract class HotelsCommand {
      */
     public void acceptAndExecute(String[] args, Optional<LocalPlayer> playerOptional) throws HotelsException {
         acceptArguments(args, playerOptional);
-        if(hasPermission(playerOptional)) execute();
+        if(hasPermission(playerOptional)) execute(playerOptional);
         else throw new NoPermissionException();
     }
 
     /**
      * Execute the subcommand
      */
-    public abstract void execute() throws HotelsException;
+    public abstract void execute(Optional<LocalPlayer> playerOptional) throws HotelsException;
 
     public String[] getLabels() {
         return labels;

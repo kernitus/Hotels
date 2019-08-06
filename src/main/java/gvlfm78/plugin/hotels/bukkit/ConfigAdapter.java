@@ -8,7 +8,7 @@
  *     by the Free Software Foundation, either version 3 of the License, or
  *     (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
+ *      This program is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU Affero General Public License for more details.
@@ -17,25 +17,28 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.adapters;
+package kernitus.plugin.hotels.bukkit;
 
-import com.sk89q.worldguard.LocalPlayer;
+import java.nio.file.Path;
 
-import java.math.BigDecimal;
-
-public interface EconomyAdapter {
-
-    BigDecimal getBalance(LocalPlayer player);
+/**
+ * Handles loading and saving of YAML files
+ */
+public class ConfigAdapter {//TODO implement methods
 
     /**
-     * Attempts to withdraw amount from player account
-     * @param player Player whose account we will be acting on
-     * @param amount Amount to withdraw
-     * @return Whether we were able to withdraw amount
+     * Extracts a yml file from resources to the plugin folder
+     * @param name The name of the file in the resources folder
      */
-    boolean withdrawAmount(LocalPlayer player, BigDecimal amount);
+    void setupConfig(String name){
 
-    String getCurrencyNameSingular();
-    String getCurrencyNamePlural();
-    String formatCurrency(BigDecimal amount);
+    }
+
+    HotelsConfiguration getConfig(Path path){
+        return null;
+    }
+
+    void saveConfig(HotelsConfiguration config){
+
+    }
 }

@@ -20,7 +20,9 @@
 package kernitus.plugin.hotels.core.commands.subcommands;
 
 import com.google.common.collect.ImmutableSet;
-import kernitus.plugin.hotels.core.adapters.Adapters;
+import com.sk89q.worldguard.LocalPlayer;
+import kernitus.plugin.hotels.bukkit.Messaging;
+import kernitus.plugin.hotels.bukkit.Utilities;
 import kernitus.plugin.hotels.core.commands.HotelsCommand;
 import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgument;
 import kernitus.plugin.hotels.core.database.HotelsQuery;
@@ -47,14 +49,14 @@ public class ListHotelsInWorldCommand extends HotelsCommand {
     }
 
     @Override
-    public void execute() throws WorldNonExistentException {
-        Optional<UUID> worldId = Adapters.utilities.worldNameToId(getArgument(0).getValue());
+    public void execute(Optional<LocalPlayer> playerOptional) throws WorldNonExistentException {
+        Optional<UUID> worldId = Utilities.worldNameToId(getArgument(0).getValue());
         if(!worldId.isPresent()) throw new WorldNonExistentException();
 
         List<Hotel> resultList = HotelsQuery.runSelectQuery("SELECT h FROM Hotel h WHERE hotelWorldId='"
         + worldId.get() + "'", Hotel.class);
 
-        if(resultList.size() < 1) Adapters.messaging.print("No hotels found in this world!");
-        else resultList.forEach(hotel -> Adapters.messaging.print("Hotel: " + hotel.getHotelName()));
+        if(resultList.size() < 1) Messaging.send("No hotels found in this world!", playerOptional);
+        else resultList.forEach(hotel -> Messaging.send("Hotel: " + hotel.getHotelName(), playerOptional));
     }
 }

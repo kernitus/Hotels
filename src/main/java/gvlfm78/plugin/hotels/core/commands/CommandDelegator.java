@@ -21,7 +21,7 @@ package kernitus.plugin.hotels.core.commands;
 
 import com.google.common.collect.ImmutableSet;
 import com.sk89q.worldguard.LocalPlayer;
-import kernitus.plugin.hotels.core.adapters.Adapters;
+import kernitus.plugin.hotels.bukkit.Messaging;
 import kernitus.plugin.hotels.core.commands.subcommands.ListAllHotelsCommand;
 import kernitus.plugin.hotels.core.commands.subcommands.ListHotelsInWorldCommand;
 import kernitus.plugin.hotels.core.exceptions.BruhMoment;
@@ -31,6 +31,7 @@ import kernitus.plugin.hotels.core.exceptions.NotEnoughArgumentsException;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -58,7 +59,7 @@ public class CommandDelegator {
     }
 
     public static void delegate(String subcommand, String[] args, LocalPlayer player) throws HotelsException {
-        Adapters.messaging.print("Subcommand: " + subcommand);
+        Messaging.send("Subcommand: " + subcommand, Optional.ofNullable(player));
 
         if(hotelsCommands.containsKey(subcommand)) {
 
@@ -70,7 +71,7 @@ public class CommandDelegator {
 
             for (HotelsCommand hotelsCommand : hotelsCommandSet) {
                 try {
-                    hotelsCommand.acceptAndExecute(args,player); //Try to run command
+                    hotelsCommand.acceptAndExecute(args, Optional.ofNullable(player)); //Try to run command
                     ranSuccessfully = true; //If it didn't go to catch clause, the command ran, so we can break here
                     break;
                 } catch (NotEnoughArgumentsException |  NoPermissionException e) {
@@ -80,6 +81,6 @@ public class CommandDelegator {
             if(!ranSuccessfully) throw lastException;
         }
         else
-            Adapters.messaging.print("Hotels subcommand not recognised!");
+            Messaging.send("Hotels subcommand not recognised!", Optional.ofNullable(player));
     }
 }

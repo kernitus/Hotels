@@ -31,7 +31,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
-public class CommandHandler implements CommandExecutor  {
+public class CommandListener implements CommandExecutor  {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
