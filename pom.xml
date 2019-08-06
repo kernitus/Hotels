@@ -1,5 +1,5 @@
 <!--
-  ~     Hotels Bukkit and Sponge Plugin
+  ~     Hotels Bukkit Plugin
   ~     Copyright (C) 2019 kernitus <kernitus@protonmail.com>
   ~     Full licence text can be found in LICENCE file
   ~
@@ -25,7 +25,7 @@
     <artifactId>hotels</artifactId>
     <version>2.0.0</version>
     <name>Hotels</name>
-    <description>Hotels Bukkit and Sponge plugin</description>
+    <description>Hotels Bukkit Plugin</description>
     <url>https://gitlab.com/kernitus/hotels</url>
 
     <repositories>

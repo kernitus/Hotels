@@ -1,5 +1,5 @@
 /*
- *     Hotels Bukkit and Sponge Plugin
+ *     Hotels Bukkit Plugin
  *     Copyright (C) 2019 kernitus <kernitus@protonmail.com>
  *     Full licence text can be found in LICENCE file
  *
