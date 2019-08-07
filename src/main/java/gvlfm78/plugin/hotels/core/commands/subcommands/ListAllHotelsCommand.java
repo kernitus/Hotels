@@ -1,11 +1,11 @@
 package kernitus.plugin.hotels.core.commands.subcommands;
 
-import com.sk89q.worldguard.LocalPlayer;
 import kernitus.plugin.hotels.bukkit.Messaging;
 import kernitus.plugin.hotels.core.commands.HotelsCommand;
 import kernitus.plugin.hotels.core.database.HotelsQuery;
 import kernitus.plugin.hotels.core.hotel.Hotel;
 import kernitus.plugin.hotels.core.permissions.HotelsPermission;
+import org.bukkit.entity.Player;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -20,7 +20,7 @@ public class ListAllHotelsCommand extends HotelsCommand {
     }
 
     @Override
-    public void execute(Optional<LocalPlayer> playerOptional) {
+    public void execute(Optional<Player> playerOptional) {
         List<Hotel> resultList = HotelsQuery.getAll(Hotel.class);
 
         if(resultList.size() < 1) Messaging.send("No hotels found at all!", playerOptional);

@@ -37,7 +37,6 @@ public class HotelsMain extends JavaPlugin {
 
     @Override
     public void onDisable(){
-        Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
         HotelsQuery.closeEntityManager();
         getLogger().info("Hotels v" + getDescription().getVersion() + " has been disabled");
     }

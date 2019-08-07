@@ -20,7 +20,6 @@
 package kernitus.plugin.hotels.core.commands;
 
 import com.google.common.collect.ImmutableSet;
-import com.sk89q.worldguard.LocalPlayer;
 import kernitus.plugin.hotels.bukkit.Messaging;
 import kernitus.plugin.hotels.core.commands.subcommands.ListAllHotelsCommand;
 import kernitus.plugin.hotels.core.commands.subcommands.ListHotelsInWorldCommand;
@@ -28,6 +27,7 @@ import kernitus.plugin.hotels.core.exceptions.BruhMoment;
 import kernitus.plugin.hotels.core.exceptions.HotelsException;
 import kernitus.plugin.hotels.core.exceptions.NoPermissionException;
 import kernitus.plugin.hotels.core.exceptions.NotEnoughArgumentsException;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -58,7 +58,7 @@ public class CommandDelegator {
         delegate(subcommand,args,null);
     }
 
-    public static void delegate(String subcommand, String[] args, LocalPlayer player) throws HotelsException {
+    public static void delegate(String subcommand, String[] args, Player player) throws HotelsException {
         Messaging.send("Subcommand: " + subcommand, Optional.ofNullable(player));
 
         if(hotelsCommands.containsKey(subcommand)) {

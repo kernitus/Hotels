@@ -1,9 +1,8 @@
 package kernitus.plugin.hotels.bukkit;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldguard.LocalPlayer;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 
@@ -16,8 +15,8 @@ public class EconomyAdapter {
     }
 
     
-    public BigDecimal getBalance(LocalPlayer player) {
-        return BigDecimal.valueOf(economy.getBalance(BukkitAdapter.adapt(player)));
+    public BigDecimal getBalance(Player player) {
+        return BigDecimal.valueOf(economy.getBalance(player));
     }
 
     /**
@@ -27,8 +26,8 @@ public class EconomyAdapter {
      * @return Whether we were able to withdraw amount
      */
     
-    public boolean withdrawAmount(LocalPlayer player, BigDecimal amount) {
-        return economy.withdrawPlayer(BukkitAdapter.adapt(player),
+    public boolean withdrawAmount(Player player, BigDecimal amount) {
+        return economy.withdrawPlayer(player,
                 amount.doubleValue()).transactionSuccess();
     }
 

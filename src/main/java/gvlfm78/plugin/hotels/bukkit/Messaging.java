@@ -19,9 +19,8 @@
 
 package kernitus.plugin.hotels.bukkit;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldguard.LocalPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
@@ -32,9 +31,9 @@ public class Messaging {
      * @param message Message to send
      * @param player Player the message should be sent to
      */
-    public static void send(String message, Optional<LocalPlayer> player) {
+    public static void send(String message, Optional<Player> player) {
         if(player.isPresent())
-            BukkitAdapter.adapt(player.get()).sendMessage(message);
+            player.get().sendMessage(message);
         else Bukkit.getLogger().info(message);
     }
 
@@ -43,7 +42,7 @@ public class Messaging {
      * @param message Message to send
      * @param player Player the message should be sent to
      */
-    public static void debug(String message, Optional<LocalPlayer> player){
+    public static void debug(String message, Optional<Player> player){
         //TODO if debug enabled
         send(prependDebug(message), player);
     }

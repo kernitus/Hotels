@@ -20,7 +20,6 @@
 
 package kernitus.plugin.hotels.bukkit;
 
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import kernitus.plugin.hotels.core.commands.CommandDelegator;
 import kernitus.plugin.hotels.core.exceptions.HotelsException;
 import kernitus.plugin.hotels.core.exceptions.NoArgumentsException;
@@ -42,7 +41,7 @@ public class CommandListener implements CommandExecutor  {
             if(sender instanceof Player) {
                 CommandDelegator.delegate(args[0],
                         Arrays.copyOfRange(args, 1, args.length),
-                        WorldGuardPlugin.inst().wrapPlayer((Player) sender));
+                        (Player) sender);
             }
             else {
                 CommandDelegator.delegate(args[0], Arrays.copyOfRange(args,1,args.length));

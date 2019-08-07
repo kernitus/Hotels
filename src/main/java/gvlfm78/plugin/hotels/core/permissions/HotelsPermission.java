@@ -19,7 +19,7 @@
 
 package kernitus.plugin.hotels.core.permissions;
 
-import com.sk89q.worldguard.LocalPlayer;
+import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
@@ -34,7 +34,7 @@ public class HotelsPermission {
         this.permission = permission;
     }
 
-    public boolean checkPermission(Optional<LocalPlayer> playerOptional){
+    public boolean checkPermission(Optional<Player> playerOptional){
         return !playerOptional.isPresent() || playerOptional.get().hasPermission(permission);
     }
 
