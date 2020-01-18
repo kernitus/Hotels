@@ -41,14 +41,12 @@ class HotelsCommandArgument(val optionality: HotelsCommandArgumentOptionality,
      * @return The status, depending on the input and optionality
      */
     val status: HotelsCommandArgumentStatus
-        get() = if (hasInput())
-            FULL
-        else if (optionality == TRUE)
-            IGNORE
-        else
-            EMPTY
+        get() = when {
+            hasInput() -> FULL
+            optionality == TRUE -> IGNORE
+            else -> EMPTY
+        }
 
-    private fun hasInput(): Boolean {
-        return value != null && !value!!.isEmpty()
-    }
+    private fun hasInput(): Boolean = value?.isNotEmpty() ?: false
+
 }

@@ -21,7 +21,6 @@ package kernitus.plugin.hotels.bukkit
 
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import java.util.*
 
 object Messaging {
 
@@ -30,19 +29,15 @@ object Messaging {
      * @param message Message to send
      * @param player Player the message should be sent to
      */
-    fun send(message: String, player: Optional<Player>) {
-        if (player.isPresent())
-            player.get().sendMessage(message)
-        else
-            Bukkit.getLogger().info(message)
-    }
+    fun send(message: String, player: Player?) =
+        player?.sendMessage(message) ?: Bukkit.getLogger().info(message)
 
     /**
      * Sends a debug message to a player, if debug is enabled
      * @param message Message to send
      * @param player Player the message should be sent to
      */
-    fun debug(message: String, player: Optional<Player>) {
+    fun debug(message: String, player: Player?) {
         //TODO if debug enabled
         send(prependDebug(message), player)
     }

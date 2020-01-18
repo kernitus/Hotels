@@ -19,10 +19,7 @@
 
 package kernitus.plugin.hotels.core.commands
 
-import com.google.common.collect.ImmutableSet
 import kernitus.plugin.hotels.bukkit.Messaging
-import kernitus.plugin.hotels.core.commands.subcommands.ListAllHotelsCommand
-import kernitus.plugin.hotels.core.commands.subcommands.ListHotelsInWorldCommand
 import kernitus.plugin.hotels.core.exceptions.BruhMoment
 import kernitus.plugin.hotels.core.exceptions.HotelsException
 import kernitus.plugin.hotels.core.exceptions.NoPermissionException
@@ -37,23 +34,13 @@ object CommandDelegator {
 
     private val hotelsCommands = HashMap<String, Set<HotelsCommand>>()
 
-    init {
+    /*init {
         //Create ordered sets of each different command
-        val hotelsListCommands = LinkedHashSet(ImmutableSet.of(
-                ListAllHotelsCommand(), ListHotelsInWorldCommand()
-        ))
+        val hotelsListCommands = LinkedHashSet(ImmutableSet.of(ListAllHotelsCommand(), ListHotelsInWorldCommand()))
+    }*/
 
-        val hcs = arrayOfNulls<HotelsCommand>(5)
-        hotelsListCommands.toTypedArray()
-        for (label in hcs[0].labels) {
-            hotelsCommands[label] = hotelsListCommands
-        }
-    }
-
-    @Throws(HotelsException::class)
-    @JvmOverloads
     fun delegate(subcommand: String, args: Array<String>, player: Player? = null) {
-        Messaging.send("Subcommand: $subcommand", Optional.ofNullable<Player>(player))
+        Messaging.send("Subcommand: $subcommand", player)
 
         if (hotelsCommands.containsKey(subcommand)) {
 
@@ -63,9 +50,11 @@ object CommandDelegator {
             var ranSuccessfully = false
             var lastException: HotelsException = BruhMoment()
 
+            if(hotelsCommandSet == null) throw lastException
+
             for (hotelsCommand in hotelsCommandSet) {
                 try {
-                    hotelsCommand.acceptAndExecute(args, Optional.ofNullable<Player>(player)) //Try to run command
+                    hotelsCommand.acceptAndExecute(args, player) //Try to run command
                     ranSuccessfully = true //If it didn't go to catch clause, the command ran, so we can break here
                     break
                 } catch (e: NotEnoughArgumentsException) {
@@ -77,6 +66,6 @@ object CommandDelegator {
             }
             if (!ranSuccessfully) throw lastException
         } else
-            Messaging.send("Hotels subcommand not recognised!", Optional.ofNullable<Player>(player))
+            Messaging.send("Hotels subcommand not recognised!", player)
     }
 }

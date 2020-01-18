@@ -27,17 +27,21 @@ import javax.persistence.Id
 import javax.persistence.OneToOne
 
 @Entity
-class HotelHome : AbstractHome {
+data class HotelHome() : AbstractHome() {
 
-    @OneToOne(optional = false)
-    val hotel: Hotel
-    @Id
-    private val hotelId: UUID?
+    constructor(@OneToOne(optional = false)
+                        val hotel: Hotel,
 
-    constructor(hotel: Hotel) {
-        this.hotel = hotel
-        hotelId = hotel.id
+                @Id
+                        private val hotelId: UUID?) : this() {
+
     }
-
-    constructor() {}
 }
+
+
+/*constructor(hotel: Hotel) {
+    this.hotel = hotel
+    hotelId = hotel.id
+}
+
+constructor()*/

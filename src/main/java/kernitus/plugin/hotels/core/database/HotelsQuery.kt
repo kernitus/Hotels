@@ -41,7 +41,7 @@ object HotelsQuery {
 
     fun <T> runSelectQuery(typedQuery: String, clazz: Class<T>): List<T> {
         val entityManager = HotelsQuery.entityManager
-        val resultList = entityManager.createQuery(typedQuery, clazz).getResultList()
+        val resultList = entityManager.createQuery(typedQuery, clazz).resultList
         entityManager.close()
         return resultList
     }

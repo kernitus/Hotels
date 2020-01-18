@@ -26,69 +26,33 @@ import org.bukkit.configuration.file.YamlConfiguration
  */
 class HotelsConfiguration(private val config: YamlConfiguration) {
 
-
     val currentPath: String
-        get() = config.getCurrentPath()
-
+        get() = config.currentPath
 
     val name: String
-        get() = config.getName()
+        get() = config.name
 
+    fun getKeys(deep: Boolean): Set<String> = config.getKeys(deep)
 
-    fun getKeys(deep: Boolean): Set<String> {
-        return config.getKeys(deep)
-    }
+    fun getValues(deep: Boolean): Map<String, Any> = config.getValues(deep)
 
+    operator fun contains(path: String): Boolean = config.contains(path)
 
-    fun getValues(deep: Boolean): Map<String, Any> {
-        return config.getValues(deep)
-    }
+    fun contains(path: String, ignoreDefault: Boolean): Boolean = config.contains(path, ignoreDefault)
 
+    fun isSet(path: String): Boolean = config.isSet(path)
 
-    operator fun contains(path: String): Boolean {
-        return config.contains(path)
-    }
+    operator fun get(path: String): Any? = config.get(path)
 
+    operator fun get(path: String, def: Any): Any? = config.get(path, def)
 
-    fun contains(path: String, ignoreDefault: Boolean): Boolean {
-        return config.contains(path, ignoreDefault)
-    }
+    fun getString(path: String): String? = config.getString(path)
 
+    fun getString(path: String, def: String): String? = config.getString(path, def)
 
-    fun isSet(path: String): Boolean {
-        return config.isSet(path)
-    }
+    fun getInt(path: String): Int = config.getInt(path)
 
-
-    operator fun get(path: String): Any {
-        return config.get(path)
-    }
-
-
-    operator fun get(path: String, def: Any): Any {
-        return config.get(path, def)
-    }
-
-
-    fun getString(path: String): String {
-        return config.getString(path)
-    }
-
-
-    fun getString(path: String, def: String): String {
-        return config.getString(path, def)
-    }
-
-
-    fun getInt(path: String): Int {
-        return config.getInt(path)
-    }
-
-
-    fun getInt(path: String, def: Int): Int {
-        return config.getInt(path, def)
-    }
-
+    fun getInt(path: String, def: Int): Int = config.getInt(path, def)
 
     fun getBoolean(path: String): Boolean {
         return config.getBoolean(path)
@@ -120,12 +84,12 @@ class HotelsConfiguration(private val config: YamlConfiguration) {
     }
 
 
-    fun <T> getList(path: String, clazz: Class<T>): List<T> {
+    fun <T> getList(path: String, clazz: Class<T>): MutableList<*>? {
         return config.getList(path)
     }
 
 
-    fun <T> getList(path: String, clazz: Class<T>, def: List<T>): List<T> {
+    fun <T> getList(path: String, clazz: Class<T>, def: List<T>): MutableList<*>? {
         return config.getList(path, def)
     }
 
@@ -175,12 +139,12 @@ class HotelsConfiguration(private val config: YamlConfiguration) {
     }
 
 
-    fun <T> getObject(path: String, clazz: Class<T>): T {
+    fun <T> getObject(path: String, clazz: Class<T>): T? {
         return config.getObject(path, clazz)
     }
 
 
-    fun <T> getObject(path: String, clazz: Class<T>, def: T): T {
+    fun <T> getObject(path: String, clazz: Class<T>, def: T): T? {
         return config.getObject(path, clazz, def)
     }
 }

@@ -20,16 +20,13 @@
 package kernitus.plugin.hotels.core.permissions
 
 import org.bukkit.entity.Player
-import java.util.*
 
 /**
  * Represents a checkable Hotels permission
  */
 class HotelsPermission(private val permission: String) {
 
-    fun checkPermission(playerOptional: Optional<Player>): Boolean {
-        return !playerOptional.isPresent() || playerOptional.get().hasPermission(permission)
-    }
+    fun checkPermission(player: Player?): Boolean  = player?.hasPermission(permission) ?: false
 
     //TODO must include ways to check that player is owner of hotel and thus can run certain commands etc.
 }

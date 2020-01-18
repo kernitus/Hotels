@@ -35,19 +35,19 @@ import java.util.*
 /**
  * Lists the hotels in all/given world(s)
  */
-class ListHotelsInWorldCommand : HotelsCommand(arrayOf("hotellist", "hlist", "list"), LinkedHashSet(ImmutableSet.of(HotelsCommandArgument(WORLD_NAME, "world"))), HotelsPermission("hotels.hotellist.world")) {
+class ListHotelsInWorldCommand : HotelsCommand(arrayOf("hotellist", "hlist", "list"),
+        LinkedHashSet(ImmutableSet.of(HotelsCommandArgument(WORLD_NAME, "world"))),
+        HotelsPermission("hotels.hotellist.world")) {
 
-    @Throws(WorldNonExistentException::class)
-    override fun execute(playerOptional: Optional<Player>) {
-        val worldId = Utilities.worldNameToId(getArgument(0).value)
-        if (!worldId.isPresent) throw WorldNonExistentException()
+    override fun execute(player: Player?) {
+        val worldId = Utilities.worldNameToId(getArgument(0).value ?: throw WorldNonExistentException())
 
-        val resultList = HotelsQuery.runSelectQuery<Hotel>("SELECT h FROM Hotel h WHERE hotelWorldId='"
-                + worldId.get() + "'", Hotel::class.java)
+        val resultList = HotelsQuery.runSelectQuery("SELECT h FROM Hotel h WHERE hotelWorldId='"
+                + worldId + "'", Hotel::class.java)
 
-        if (resultList.size < 1)
-            Messaging.send("No hotels found in this world!", playerOptional)
+        if (resultList.isEmpty())
+            Messaging.send("No hotels found in this world!", player)
         else
-            resultList.forEach { hotel -> Messaging.send("Hotel: " + hotel.hotelName!!, playerOptional) }
+            resultList.forEach { hotel -> Messaging.send("Hotel: " + hotel.hotelName!!, player) }
     }
 }

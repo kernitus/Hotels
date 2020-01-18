@@ -24,9 +24,7 @@ class EconomyAdapter {
         get() = economy.currencyNamePlural()
 
 
-    fun getBalance(player: Player): BigDecimal {
-        return BigDecimal.valueOf(economy.getBalance(player))
-    }
+    fun getBalance(player: Player): BigDecimal = BigDecimal.valueOf(economy.getBalance(player))
 
     /**
      * Attempts to withdraw amount from player account
@@ -35,13 +33,8 @@ class EconomyAdapter {
      * @return Whether we were able to withdraw amount
      */
 
-    fun withdrawAmount(player: Player, amount: BigDecimal): Boolean {
-        return economy.withdrawPlayer(player,
-                amount.toDouble()).transactionSuccess()
-    }
+    fun withdrawAmount(player: Player, amount: BigDecimal): Boolean =
+            economy.withdrawPlayer(player, amount.toDouble()).transactionSuccess()
 
-
-    fun formatCurrency(amount: BigDecimal): String {
-        return economy.format(amount.toDouble())
-    }
+    fun formatCurrency(amount: BigDecimal): String = economy.format(amount.toDouble())
 }

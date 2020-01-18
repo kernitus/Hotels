@@ -20,3 +20,13 @@
 package kernitus.plugin.hotels.core.exceptions
 
 open class HotelsException : Exception()
+
+class NoArgumentsException : HotelsException()
+class NoPermissionException : HotelsException()
+class NotEnoughArgumentsException : HotelsException()
+class WorldNonExistentException : HotelsException()
+
+/**
+ * For when there shouldn't be an exception thrown
+ */
+class BruhMoment : HotelsException()
