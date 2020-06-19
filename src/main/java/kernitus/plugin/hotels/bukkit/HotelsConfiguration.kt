@@ -84,13 +84,13 @@ class HotelsConfiguration(private val config: YamlConfiguration) {
     }
 
 
-    fun <T> getList(path: String, clazz: Class<T>): MutableList<*>? {
-        return config.getList(path)
+    fun <T> getList(path: String): MutableList<T>? {
+        return config.getList(path) as MutableList<T>
     }
 
 
-    fun <T> getList(path: String, clazz: Class<T>, def: List<T>): MutableList<*>? {
-        return config.getList(path, def)
+    fun <T> getList(path: String, def: List<T>): MutableList<T>? {
+        return config.getList(path, def) as MutableList<T>?
     }
 
 

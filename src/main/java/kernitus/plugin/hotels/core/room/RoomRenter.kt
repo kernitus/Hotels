@@ -29,29 +29,16 @@ import javax.persistence.OneToMany
  * Represents the renter of a room in a hotel
  */
 @Entity
-class RoomRenter {
-
+class RoomRenter (
     @Id
-    val playerId: UUID
+    val playerId: UUID,
     @OneToMany
     private val rooms: MutableSet<Room>
+){
 
-    constructor(playerId: UUID, rooms: MutableSet<Room>) {
-        this.playerId = playerId
-        this.rooms = rooms
-    }
+    fun getRooms(): Set<Room> = rooms
 
-    protected constructor() {}
+    fun add(room: Room): Boolean = rooms.add(room)
 
-    fun getRooms(): Set<Room> {
-        return rooms
-    }
-
-    fun add(room: Room): Boolean {
-        return rooms.add(room)
-    }
-
-    fun remove(room: Room): Boolean {
-        return rooms.remove(room)
-    }
+    fun remove(room: Room): Boolean = rooms.remove(room)
 }

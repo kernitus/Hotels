@@ -34,10 +34,10 @@ abstract class AbstractRegion protected constructor(world: World, id: String) {
     private val REGION_PREFIX = "HOTELS_"
 
     private val members: DefaultDomain
-        get() = region.getMembers()
+        get() = region.members
 
     private val owners: DefaultDomain
-        get() = region.getOwners()
+        get() = region.owners
 
     init {
         region = WorldGuardManager.getRegion(world, REGION_PREFIX + id)

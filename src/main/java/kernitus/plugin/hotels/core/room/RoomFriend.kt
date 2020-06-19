@@ -29,29 +29,15 @@ import javax.persistence.ManyToMany
  * Represents a friend, who can use a room but not administer it
  */
 @Entity
-class RoomFriend {
+class RoomFriend (
+        @Id
+        val playerId: UUID,
+        @ManyToMany
+        private val rooms: MutableSet<Room>
+){
+    fun getRooms(): Set<Room> = rooms
 
-    @Id
-    val playerId: UUID
-    @ManyToMany
-    private val rooms: MutableSet<Room>
+    fun add(room: Room): Boolean = rooms.add(room)
 
-    constructor(playerId: UUID, rooms: MutableSet<Room>) {
-        this.playerId = playerId
-        this.rooms = rooms
-    }
-
-    protected constructor() {}
-
-    fun getRooms(): Set<Room> {
-        return rooms
-    }
-
-    fun add(room: Room): Boolean {
-        return rooms.add(room)
-    }
-
-    fun remove(room: Room): Boolean {
-        return rooms.remove(room)
-    }
+    fun remove(room: Room): Boolean = rooms.remove(room)
 }

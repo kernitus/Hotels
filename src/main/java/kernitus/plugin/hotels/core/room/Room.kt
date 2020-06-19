@@ -32,63 +32,36 @@ import javax.persistence.*
  * Represents a room in a hotel
  */
 @Entity
-class Room {
-
+class Room (
     @Id
-    val id: UUID
+    val id: UUID,
     @ManyToOne(optional = false)
-    val hotel: Hotel
+    val hotel: Hotel,
     @Basic(optional = false)
-    var roomNumber: Int = 0
+    var roomNumber: Int,
+    @Basic(optional = false)
+    var rentTime: Period,
+    @Basic(optional = false)
+    var cost: Double,
+    @Basic(optional = false)
+    var isRoomReset: Boolean,
     @ManyToOne
-    var renter: RoomRenter? = null
+    var renter: RoomRenter?,
     @OneToMany
-    private val roomFriends: MutableSet<RoomFriend>
+    private val roomFriends: MutableSet<RoomFriend> = HashSet(),
     @OneToOne
-    var roomHome: RoomHome? = null
-    @Basic(optional = false)
-    var rentTime: Period? = null
+    var roomHome: RoomHome?,
     @Temporal(TemporalType.TIMESTAMP)
-    var expiryInstant: LocalDateTime? = null
-    @Basic(optional = false)
-    var cost: Double = 0.toDouble()
-    @Basic(optional = false)
-    var isRoomReset: Boolean = false
-
+    var expiryInstant: LocalDateTime?,
     @Transient
-    var region: RoomRegion? = null
+    var region: RoomRegion
+){
 
-    constructor(id: UUID, hotel: Hotel, roomNumber: Int, renter: RoomRenter, region: RoomRegion,
-                roomFriends: MutableSet<RoomFriend>, roomHome: RoomHome, rentTime: Period, expiryInstant: LocalDateTime,
-                cost: Double, roomReset: Boolean) {
-        this.id = id
-        this.hotel = hotel
-        this.roomNumber = roomNumber
-        this.renter = renter
-        this.region = region
-        this.roomFriends = roomFriends
-        this.roomHome = roomHome
-        this.rentTime = rentTime
-        this.expiryInstant = expiryInstant
-        this.cost = cost
-        this.isRoomReset = roomReset
-    }
+    fun getRoomFriends(): Set<RoomFriend> = roomFriends
 
-    protected constructor() {}
+    fun addFriend(roomFriend: RoomFriend): Boolean = roomFriends.add(roomFriend)
 
-    fun getRoomFriends(): Set<RoomFriend> {
-        return roomFriends
-    }
+    fun removeFriend(roomFriend: RoomFriend): Boolean = roomFriends.remove(roomFriend)
 
-    fun addFriend(roomFriend: RoomFriend): Boolean {
-        return roomFriends.add(roomFriend)
-    }
-
-    fun removeFriend(roomFriend: RoomFriend): Boolean {
-        return roomFriends.remove(roomFriend)
-    }
-
-    fun clearFriends() {
-        roomFriends.clear()
-    }
+    fun clearFriends() = roomFriends.clear()
 }

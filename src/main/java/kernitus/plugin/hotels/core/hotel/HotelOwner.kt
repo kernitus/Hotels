@@ -29,25 +29,9 @@ import javax.persistence.OneToMany
  * Represents the owner of a hotel
  */
 @Entity
-class HotelOwner {
-
+class HotelOwner (
     @Id
-    var playerId: UUID? = null
-        private set
-
+    var playerId: UUID,
     @OneToMany
-    var hotels: Set<Hotel>? = null
-        private set
-
-    constructor(playerId: UUID, hotels: Set<Hotel>) {
-        this.playerId = playerId
-        this.hotels = hotels
-    }
-
-    constructor(playerId: UUID) {
-        this.playerId = playerId
-        hotels = HashSet()
-    }
-
-    protected constructor() {}
-}
+    var hotels: Set<Hotel> = HashSet()
+)

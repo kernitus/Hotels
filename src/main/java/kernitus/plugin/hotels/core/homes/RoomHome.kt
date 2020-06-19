@@ -27,8 +27,9 @@ import javax.persistence.Id
 import javax.persistence.OneToOne
 
 @Entity
-class RoomHome(@OneToOne(optional = false) val room: Room) : AbstractHome() {
-
+class RoomHome(@OneToOne(optional = false) val room: Room,
+               x: Int, y: Int, z: Int, pitch: Float, yaw: Float):
+        AbstractHome(x,y,z,pitch,yaw) {
     @Id
     private val roomId: UUID = room.id
 

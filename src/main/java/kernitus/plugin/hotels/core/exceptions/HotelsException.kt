@@ -25,6 +25,7 @@ class NoArgumentsException : HotelsException()
 class NoPermissionException : HotelsException()
 class NotEnoughArgumentsException : HotelsException()
 class WorldNonExistentException : HotelsException()
+class WorldGuardException : HotelsException()
 
 /**
  * For when there shouldn't be an exception thrown

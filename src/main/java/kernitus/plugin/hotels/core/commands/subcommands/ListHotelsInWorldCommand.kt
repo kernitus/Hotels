@@ -48,6 +48,6 @@ class ListHotelsInWorldCommand : HotelsCommand(arrayOf("hotellist", "hlist", "li
         if (resultList.isEmpty())
             Messaging.send("No hotels found in this world!", player)
         else
-            resultList.forEach { hotel -> Messaging.send("Hotel: " + hotel.hotelName!!, player) }
+            resultList.forEach { hotel -> Messaging.send("Hotel: " + hotel.hotelName, player) }
     }
 }

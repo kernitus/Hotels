@@ -31,11 +31,7 @@ import org.bukkit.entity.Player
 /**
  * A subcommand of the /hotels command
  */
-abstract class HotelsCommand(
-        /**
-         * Labels and aliases for the subcommand
-         */
-        val labels: Array<String>, private val arguments: Set<HotelsCommandArgument>, private val permission: HotelsPermission) {
+abstract class HotelsCommand(val labels: Array<String>, private val arguments: Set<HotelsCommandArgument>, private val permission: HotelsPermission) {
 
     /**
      * Check if the player has permission to execute the command
@@ -49,7 +45,7 @@ abstract class HotelsCommand(
      * @return Whether the command can be executed
      */
     private fun hasRequiredArguments(): Boolean {
-        return arguments.stream().anyMatch { argument -> argument.status == HotelsCommandArgumentStatus.EMPTY }
+        return arguments.stream().noneMatch { argument -> argument.status == HotelsCommandArgumentStatus.EMPTY }
     }
 
     /**
@@ -59,13 +55,12 @@ abstract class HotelsCommand(
      */
     @Throws(NotEnoughArgumentsException::class)
     fun acceptArguments(args: Array<String>, player: Player?) {
-        val i = arguments.iterator()
-        val j = 0
+        val argumentsIterator = arguments.iterator()
+        val argsIterator = args.iterator()
 
-        while (j < args.size && i.hasNext()) {
-            val argument = i.next()
-            if (args[j] != null)
-                argument.value = args[j]
+        while(argumentsIterator.hasNext()){
+            val argument = argumentsIterator.next()
+            if(argsIterator.hasNext()) argument.value = argsIterator.next()
             else { //Argument must be inferred from player
                 if(player == null) throw NotEnoughArgumentsException()
 

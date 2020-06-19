@@ -30,58 +30,29 @@ import javax.persistence.*
  * Represents a Hotel object
  */
 @Entity
-class Hotel {
+class Hotel (
 
     @Id
-    var id: UUID? = null
-        private set
+    var id: UUID,
 
     @ManyToOne(optional = false)
-    var hotelOwner: HotelOwner? = null
+    var hotelOwner: HotelOwner,
+
+    @Basic(optional = false)
+    var hotelWorldId: UUID,
+
+    @Basic(optional = false)
+    var hotelName: String,
 
     @ManyToMany
-    var hotelHelpers: Set<HotelHelper>? = null
-        private set
+    var hotelHelpers: Set<HotelHelper> = HashSet(),
 
     @OneToMany
-    var hotelRooms: Set<Room>? = null
-        private set
-
-    @Basic(optional = false)
-    var hotelWorldId: UUID? = null
-        private set
+    var hotelRooms: Set<Room> = HashSet(),
 
     @OneToOne
-    var hotelHome: HotelHome? = null
-
-    @Basic(optional = false)
-    var hotelName: String? = null
+    var hotelHome: HotelHome? = null,
 
     @Transient
-    var hotelRegion: HotelRegion? = null
-
-    constructor(id: UUID, hotelOwner: HotelOwner, hotelRegion: HotelRegion, hotelHelpers: Set<HotelHelper>,
-                hotelRooms: Set<Room>, hotelWorldId: UUID, hotelHome: HotelHome, hotelName: String) {
-        this.id = id
-        this.hotelOwner = hotelOwner
-        this.hotelRegion = hotelRegion
-        this.hotelHelpers = hotelHelpers
-        this.hotelRooms = hotelRooms
-        this.hotelWorldId = hotelWorldId
-        this.hotelHome = hotelHome
-        this.hotelName = hotelName
-    }
-
-    constructor(id: UUID, hotelOwner: HotelOwner, hotelRegion: HotelRegion, hotelWorldId: UUID, hotelHome: HotelHome, hotelName: String) {
-        this.id = id
-        this.hotelOwner = hotelOwner
-        this.hotelRegion = hotelRegion
-        this.hotelHelpers = HashSet()
-        this.hotelRooms = HashSet()
-        this.hotelWorldId = hotelWorldId
-        this.hotelHome = hotelHome
-        this.hotelName = hotelName
-    }
-
-    protected constructor() {}
-}
+    var hotelRegion: HotelRegion
+)

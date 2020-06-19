@@ -29,20 +29,14 @@ import javax.persistence.ManyToMany
  * Represents a hotel helper, who can build in a hotel region but cannot administer it
  */
 @Entity
-class HotelHelper {
+class HotelHelper (
 
-    @Id
-    val playerId: UUID
-    @ManyToMany
-    private val hotels: MutableSet<Hotel>
+        @Id
+        val playerId: UUID,
+        @ManyToMany
+        private val hotels: MutableSet<Hotel>
 
-    constructor(playerId: UUID, hotels: MutableSet<Hotel>) {
-        this.playerId = playerId
-        this.hotels = hotels
-    }
-
-    protected constructor() {}
-
+){
     fun getHotels(): Set<Hotel> {
         return hotels
     }

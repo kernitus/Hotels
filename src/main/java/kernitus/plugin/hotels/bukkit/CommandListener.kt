@@ -38,7 +38,7 @@ class CommandListener : CommandExecutor {
             if (sender is Player) {
                 CommandDelegator.delegate(args[0],
                         args.copyOfRange(1, args.size),
-                        sender as Player)
+                        sender)
             } else {
                 CommandDelegator.delegate(args[0], args.copyOfRange(1, args.size))
             }

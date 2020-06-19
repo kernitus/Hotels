@@ -24,16 +24,16 @@ import javax.persistence.Basic
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class AbstractHome {
+abstract class AbstractHome (
 
     @Basic(optional = false)
-    var x: Int = 0
+    var x: Int,
     @Basic(optional = false)
-    var y: Int = 0
+    var y: Int,
     @Basic(optional = false)
-    var z: Int = 0
+    var z: Int,
     @Basic(optional = false)
-    var pitch: Float = 0.toFloat()
+    var pitch: Float,
     @Basic(optional = false)
-    var yaw: Float = 0.toFloat()
-}
+    var yaw: Float
+)

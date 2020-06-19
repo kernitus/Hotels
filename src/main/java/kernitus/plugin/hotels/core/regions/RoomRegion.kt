@@ -25,4 +25,4 @@ import com.sk89q.worldedit.world.World
 /**
  * Provides an abstraction for manipulating a room's region
  */
-class RoomRegion protected constructor(world: World, id: String) : AbstractRegion(world, id)
+class RoomRegion (world: World, id: String) : AbstractRegion(world, id)
