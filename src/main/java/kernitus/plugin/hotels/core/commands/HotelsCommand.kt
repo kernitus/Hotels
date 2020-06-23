@@ -1,20 +1,20 @@
 /*
- *     Hotels Bukkit Plugin
- *     Copyright (C) 2019 kernitus <kernitus@protonmail.com>
- *     Full licence text can be found in LICENCE file
+ * Hotels Bukkit Plugin
+ * Copyright (C) 2020 kernitus <kernitus@protonmail.com>
+ * Full licence text can be found in LICENCE file
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Affero General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- *     You should have received a copy of the GNU Affero General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package kernitus.plugin.hotels.core.commands
@@ -70,6 +70,7 @@ abstract class HotelsCommand(val labels: Array<String>, private val arguments: S
                     else -> throw NotEnoughArgumentsException()
                 }
             }
+            println("Args value ${argument.value}")
         }
     }
 
@@ -81,10 +82,8 @@ abstract class HotelsCommand(val labels: Array<String>, private val arguments: S
     @Throws(HotelsException::class)
     fun acceptAndExecute(args: Array<String>, player: Player?) {
         acceptArguments(args, player)
-        if (hasPermission(player))
-            execute(player)
-        else
-            throw NoPermissionException()
+        if (hasPermission(player)) execute(player)
+        else throw NoPermissionException()
     }
 
     /**
