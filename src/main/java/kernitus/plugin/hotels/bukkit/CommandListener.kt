@@ -26,9 +26,10 @@ import kernitus.plugin.hotels.core.exceptions.NoArgumentsException
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 
-class CommandListener : CommandExecutor {
+class CommandListener : CommandExecutor, TabCompleter {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
 
@@ -39,8 +40,18 @@ class CommandListener : CommandExecutor {
             Messaging.send(he.message, sender)
             if(he.printCommandUsage && he.commandUsage != null) Messaging.send(he.commandUsage, sender)
             if(he.printStackTrace) he.printStackTrace()
+
+            return false
         }
 
         return true
     }
+
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): MutableList<String> =
+            when {
+                args.isEmpty() -> mutableListOf()
+                args.size == 1 -> CommandDelegator.getPrimaryCommandLabels()
+                else -> CommandDelegator.tabComplete(args[0], args.copyOfRange(1, args.size), sender as? Player)
+            }
+
 }

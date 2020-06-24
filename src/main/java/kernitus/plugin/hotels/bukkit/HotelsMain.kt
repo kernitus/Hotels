@@ -31,7 +31,10 @@ class HotelsMain : JavaPlugin() {
         //For JPA classloader to work correctly
         Thread.currentThread().contextClassLoader = classLoader
 
-        getCommand("hotels")?.setExecutor(CommandListener())
+        val hotelsCommand = getCommand("hotels")
+        val commandListener = CommandListener()
+        hotelsCommand?.setExecutor(commandListener)
+        hotelsCommand?.tabCompleter = commandListener
     }
 
     override fun onDisable() {

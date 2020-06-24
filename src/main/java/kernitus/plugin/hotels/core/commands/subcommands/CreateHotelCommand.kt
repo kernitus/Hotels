@@ -36,5 +36,12 @@ class CreateHotelCommand : HotelsCommand(arrayOf("create", "c"),
         val hotelName = getArgument(0).value
 
         player.sendMessage("Creating hotel $hotelName")
+
+        // PRECONDITIONS:
+        // player must have a region selected
+
+        // region must not intersect already existing hotel regions
+        // must not intersect regions with custom flag (no hotels)
+        // they must have enough money to create hotel, (money scaling with size of region?)
     }
 }

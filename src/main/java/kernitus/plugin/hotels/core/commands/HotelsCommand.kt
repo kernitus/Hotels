@@ -21,8 +21,6 @@ package kernitus.plugin.hotels.core.commands
 
 import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgument
 import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgumentOptionality
-import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgumentStatus
-import kernitus.plugin.hotels.core.exceptions.HotelsException
 import kernitus.plugin.hotels.core.exceptions.NoPermissionException
 import kernitus.plugin.hotels.core.exceptions.NotEnoughArgumentsException
 import kernitus.plugin.hotels.core.permissions.HotelsPermission
@@ -41,19 +39,26 @@ abstract class HotelsCommand(val labels: Array<String>, private val arguments: S
     private fun hasPermission(player: Player?): Boolean = permission.checkPermission(player)
 
     /**
-     * Checks whether the argument requirements are met
-     * @return Whether the command can be executed
+     * Gets next argument the subcommand is expecting
      */
-    private fun hasRequiredArguments(): Boolean =
-            arguments.stream().noneMatch { argument -> argument.status == HotelsCommandArgumentStatus.EMPTY }
+    fun nextMissingArgument(args: Array<String>) : HotelsCommandArgument? {
+        val argumentsIterator = arguments.iterator()
+        var argument: HotelsCommandArgument? = null
+
+        for(i in args.indices) {
+            if (argumentsIterator.hasNext()) argument = argumentsIterator.next()
+            else return null
+        }
+
+        return argument
+    }
 
     /**
      * Accepts subcommand arguments and sets them accordingly
      * @param args The arguments for the subcommand, excluding the subcommand label itself
      * @param player The player who sent the command, for inferring of optional arguments
      */
-    @Throws(NotEnoughArgumentsException::class)
-    fun acceptArguments(args: Array<String>, player: Player?) {
+    private fun acceptArguments(args: Array<String>, player: Player?) {
         val argumentsIterator = arguments.iterator()
         val argsIterator = args.iterator()
 
@@ -78,7 +83,6 @@ abstract class HotelsCommand(val labels: Array<String>, private val arguments: S
      * @param args The arguments for the subcommand, excluding the subcommand label itself
      * @param player The player who sent the command, for optional arguments inferring
      */
-    @Throws(HotelsException::class)
     fun acceptAndExecute(args: Array<String>, player: Player?) {
         acceptArguments(args, player)
         if (hasPermission(player)) execute(player)
@@ -88,7 +92,6 @@ abstract class HotelsCommand(val labels: Array<String>, private val arguments: S
     /**
      * Execute the subcommand
      */
-    @Throws(HotelsException::class)
     abstract fun execute(player: Player?)
 
     protected fun getArgument(index: Int): HotelsCommandArgument = arguments.toTypedArray()[index]

@@ -32,19 +32,10 @@ object WorldGuardManager {
     private val WGINSTANCE = WorldGuard.getInstance()
     private val REGION_CONTAINER = WGINSTANCE.platform.regionContainer
 
-    private fun getRegionManager(world: World): RegionManager {
-        return REGION_CONTAINER?.get(world) ?: throw WorldGuardException()
-    }
+    private fun getRegionManager(world: World): RegionManager = REGION_CONTAINER?.get(world) ?: throw WorldGuardException()
 
-    fun getRegion(world: World, id: String): ProtectedRegion {
-        return getRegionManager(world).getRegion(id) ?: throw WorldGuardException()
-    }
+    fun getRegion(world: World, id: String): ProtectedRegion = getRegionManager(world).getRegion(id) ?: throw WorldGuardException()
+    fun addRegion(world: World, region: ProtectedRegion) = getRegionManager(world).addRegion(region)
+    fun removeRegion(world: World, id: String) = getRegionManager(world).removeRegion(id, RemovalStrategy.UNSET_PARENT_IN_CHILDREN)
 
-    fun addRegion(world: World, region: ProtectedRegion) {
-        getRegionManager(world).addRegion(region)
-    }
-
-    fun removeRegion(world: World, id: String) {
-        getRegionManager(world).removeRegion(id, RemovalStrategy.UNSET_PARENT_IN_CHILDREN)
-    }
 }
