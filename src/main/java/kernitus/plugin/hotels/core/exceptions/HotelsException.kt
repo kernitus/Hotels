@@ -19,15 +19,17 @@
 
 package kernitus.plugin.hotels.core.exceptions
 
-open class HotelsException : Exception()
+open class HotelsException(override val message: String, val commandUsage: String? = null,
+                           val printCommandUsage: Boolean = true, val printStackTrace: Boolean = false) : Exception()
 
-class NoArgumentsException : HotelsException()
-class NoPermissionException : HotelsException()
-class NotEnoughArgumentsException : HotelsException()
-class WorldNonExistentException : HotelsException()
-class WorldGuardException : HotelsException()
+class NoArgumentsException(commandUsage: String?) : HotelsException("No arguments!", commandUsage)
+class NoPermissionException : HotelsException("No permission!", printCommandUsage = false)
+class NotEnoughArgumentsException(commandUsage: String?) : HotelsException("Not enough arguments!", commandUsage)
+class WorldNonExistentException(commandUsage: String?) : HotelsException("Specified world does not exist!", commandUsage)
+class WorldGuardException() : HotelsException("WorldGuard error!", printStackTrace = true)
+class PlayerOnlyException : HotelsException("This command can only be run by a player", printCommandUsage = false)
 
 /**
  * For when there shouldn't be an exception thrown
  */
-class BruhMoment : HotelsException()
+class BruhMoment : HotelsException("Unknown error has occurred", null, false, true)

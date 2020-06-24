@@ -20,6 +20,7 @@
 package kernitus.plugin.hotels.bukkit
 
 import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 object Messaging {
@@ -31,6 +32,8 @@ object Messaging {
      */
     fun send(message: String, player: Player?) =
         player?.sendMessage(message) ?: Bukkit.getLogger().info(message)
+
+    fun send(message: String, sender: CommandSender) = send(message, sender as? Player)
 
     /**
      * Sends a debug message to a player, if debug is enabled

@@ -54,7 +54,7 @@ object QueryTest {
 
     fun addHotel() {
         val owner = HotelOwner(UUID.randomUUID())
-        val world = Bukkit.getWorld("world") ?: throw WorldNonExistentException()
+        val world = Bukkit.getWorld("world") ?: throw WorldNonExistentException("test")
         val hotel = Hotel(
                 id = UUID.randomUUID(),
                 hotelOwner = owner,

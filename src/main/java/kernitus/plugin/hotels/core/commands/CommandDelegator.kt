@@ -21,6 +21,7 @@ package kernitus.plugin.hotels.core.commands
 
 import com.google.common.collect.ImmutableSet
 import kernitus.plugin.hotels.bukkit.Messaging
+import kernitus.plugin.hotels.core.commands.subcommands.CreateHotelCommand
 import kernitus.plugin.hotels.core.commands.subcommands.ListAllHotelsCommand
 import kernitus.plugin.hotels.core.commands.subcommands.ListHotelsInWorldCommand
 import kernitus.plugin.hotels.core.exceptions.BruhMoment
@@ -38,14 +39,13 @@ object CommandDelegator {
     private val hotelsCommands = HashMap<String, Set<HotelsCommand>>()
 
     init {
-        // Various version of the same command with different arguments are grouped together
+        // Various versions of the same command with different arguments are grouped together
         val sets = ImmutableSet.of<Set<HotelsCommand>>(
-                ImmutableSet.of(ListHotelsInWorldCommand(), ListAllHotelsCommand()) // sort by amount of args
+                ImmutableSet.of(ListHotelsInWorldCommand(), ListAllHotelsCommand()), // sort by highest amount of args first
+                ImmutableSet.of(CreateHotelCommand())
         )
 
-        sets.forEach { set ->
-            set.first().labels.forEach { label -> hotelsCommands[label] = set }
-        }
+        sets.forEach { set -> set.first().labels.forEach { label -> hotelsCommands[label] = set } }
     }
 
     fun delegate(subcommand: String, args: Array<String>, player: Player? = null) {
@@ -61,7 +61,10 @@ object CommandDelegator {
 
             if(hotelsCommandSet == null) throw lastException
 
+            var usedCommand = hotelsCommandSet.first()
+
             for (hotelsCommand in hotelsCommandSet) {
+                usedCommand = hotelsCommand
                 try {
                     hotelsCommand.acceptAndExecute(args, player) //Try to run command
                     ranSuccessfully = true //If it didn't go to catch clause, the command ran, so we can break here
@@ -71,10 +74,8 @@ object CommandDelegator {
                 } catch (e: NoPermissionException) {
                     lastException = e
                 }
-
             }
             if (!ranSuccessfully) throw lastException
-        } else
-            Messaging.send("Hotels subcommand not recognised!", player)
+        } else Messaging.send("Hotels subcommand not recognised!", player)
     }
 }

@@ -20,32 +20,21 @@
 package kernitus.plugin.hotels.core.commands.subcommands
 
 import com.google.common.collect.ImmutableSet
-import kernitus.plugin.hotels.bukkit.Messaging
-import kernitus.plugin.hotels.bukkit.Utilities
 import kernitus.plugin.hotels.core.commands.HotelsCommand
 import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgument
-import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgumentOptionality.WORLD_NAME
-import kernitus.plugin.hotels.core.database.HotelsQuery
-import kernitus.plugin.hotels.core.exceptions.WorldNonExistentException
-import kernitus.plugin.hotels.core.hotel.Hotel
+import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgumentOptionality
+import kernitus.plugin.hotels.core.exceptions.PlayerOnlyException
 import kernitus.plugin.hotels.core.permissions.HotelsPermission
 import org.bukkit.entity.Player
-import java.util.*
 
-/**
- * Lists the hotels in all/given world(s)
- */
-class ListHotelsInWorldCommand : HotelsCommand(arrayOf("hotellist", "hlist", "list"),
-        ImmutableSet.of(HotelsCommandArgument(WORLD_NAME, "world")),
-        HotelsPermission("hotels.hotellist.world")) {
+class CreateHotelCommand : HotelsCommand(arrayOf("create", "c"),
+        ImmutableSet.of(HotelsCommandArgument(HotelsCommandArgumentOptionality.FALSE, "name")),
+        HotelsPermission("hotels.create")) {
 
     override fun execute(player: Player?) {
-        val worldId: UUID? = Utilities.worldNameToId(getArgument(0).value ?: throw WorldNonExistentException(getUsage()))
+        if(player == null) throw PlayerOnlyException()
+        val hotelName = getArgument(0).value
 
-        val resultList = HotelsQuery.runSelectQuery("SELECT h FROM Hotel h WHERE hotelWorldId='"
-                + worldId.toString() + "'", Hotel::class.java)
-
-        if (resultList.isEmpty()) Messaging.send("No hotels found in this world!", player)
-        else resultList.forEach { hotel -> Messaging.send("Hotel: " + hotel.hotelName, player) } //TODO make pages when too many results
+        player.sendMessage("Creating hotel $hotelName")
     }
 }

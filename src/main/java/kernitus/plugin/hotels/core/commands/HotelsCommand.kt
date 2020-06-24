@@ -44,9 +44,8 @@ abstract class HotelsCommand(val labels: Array<String>, private val arguments: S
      * Checks whether the argument requirements are met
      * @return Whether the command can be executed
      */
-    private fun hasRequiredArguments(): Boolean {
-        return arguments.stream().noneMatch { argument -> argument.status == HotelsCommandArgumentStatus.EMPTY }
-    }
+    private fun hasRequiredArguments(): Boolean =
+            arguments.stream().noneMatch { argument -> argument.status == HotelsCommandArgumentStatus.EMPTY }
 
     /**
      * Accepts subcommand arguments and sets them accordingly
@@ -62,12 +61,12 @@ abstract class HotelsCommand(val labels: Array<String>, private val arguments: S
             val argument = argumentsIterator.next()
             if(argsIterator.hasNext()) argument.value = argsIterator.next()
             else { //Argument must be inferred from player
-                if(player == null) throw NotEnoughArgumentsException()
+                if(player == null) throw NotEnoughArgumentsException(getUsage())
 
                 when (argument.optionality) {
                     HotelsCommandArgumentOptionality.PLAYER_NAME -> argument.value = player.name
                     HotelsCommandArgumentOptionality.WORLD_NAME -> argument.value = player.world.name
-                    else -> throw NotEnoughArgumentsException()
+                    else -> throw NotEnoughArgumentsException(getUsage())
                 }
             }
             println("Args value ${argument.value}")
@@ -93,4 +92,19 @@ abstract class HotelsCommand(val labels: Array<String>, private val arguments: S
     abstract fun execute(player: Player?)
 
     protected fun getArgument(index: Int): HotelsCommandArgument = arguments.toTypedArray()[index]
+
+    fun getUsage(): String {
+        var usageString = "/ht "
+        for(i in labels.indices){
+            usageString += labels[i]
+            if(labels.size > 1 && i < labels.size - 1) usageString += "|"
+        }
+
+        arguments.forEach { arg -> usageString +=
+            if(arg.optionality == HotelsCommandArgumentOptionality.FALSE) " <${arg.suggestion}>"
+            else " [${arg.suggestion}]"
+        }
+
+        return usageString
+    }
 }
