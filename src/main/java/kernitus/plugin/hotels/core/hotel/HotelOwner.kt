@@ -33,5 +33,5 @@ class HotelOwner (
     @Id
     var playerId: UUID,
     @OneToMany
-    var hotels: Set<Hotel> = HashSet()
+    var hotels: MutableSet<Hotel> = HashSet()
 )

@@ -44,10 +44,10 @@ class Hotel (
     var hotelName: String,
 
     @ManyToMany
-    var hotelHelpers: Set<HotelHelper> = HashSet(),
+    var hotelHelpers: MutableSet<HotelHelper> = HashSet(),
 
     @OneToMany
-    var hotelRooms: Set<Room> = HashSet(),
+    var hotelRooms: MutableSet<Room> = HashSet(),
 
     @OneToOne
     var hotelHome: HotelHome? = null,

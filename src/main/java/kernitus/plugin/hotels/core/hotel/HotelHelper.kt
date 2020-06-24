@@ -30,22 +30,12 @@ import javax.persistence.ManyToMany
  */
 @Entity
 class HotelHelper (
-
         @Id
         val playerId: UUID,
         @ManyToMany
         private val hotels: MutableSet<Hotel>
-
 ){
-    fun getHotels(): Set<Hotel> {
-        return hotels
-    }
-
-    fun add(hotel: Hotel): Boolean {
-        return hotels.add(hotel)
-    }
-
-    fun remove(hotel: Hotel): Boolean {
-        return hotels.remove(hotel)
-    }
+    fun getHotels(): Set<Hotel> = hotels
+    fun add(hotel: Hotel): Boolean = hotels.add(hotel)
+    fun remove(hotel: Hotel): Boolean =  hotels.remove(hotel)
 }
