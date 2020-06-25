@@ -21,8 +21,14 @@
 package kernitus.plugin.hotels.core.regions
 
 import com.sk89q.worldedit.world.World
+import com.sk89q.worldguard.protection.regions.ProtectedRegion
 
 /**
  * Provides an abstraction for manipulating a hotel's region
  */
-class HotelRegion(world: World, id: String) : AbstractRegion(world, id)
+class HotelRegion : AbstractRegion {
+    constructor(world: World, id: String, region: ProtectedRegion) : super(world, id, region)
+    constructor(world: World, id: String) : super(world, id)
+}
+
+//TODO this must not actually try to get the region but rather represent it

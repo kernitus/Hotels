@@ -17,40 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.hotel
+package kernitus.plugin.hotels.core.events
 
-import kernitus.plugin.hotels.core.homes.HotelHome
-import kernitus.plugin.hotels.core.regions.HotelRegion
-import kernitus.plugin.hotels.core.room.Room
-import java.util.*
-import javax.persistence.*
+import kernitus.plugin.hotels.core.hotel.Hotel
 
-/**
- * Represents a Hotel object
- */
-@Entity
-class Hotel (
-    @ManyToOne(optional = false)
-    var hotelOwner: HotelOwner,
-
-    @Basic(optional = false)
-    var hotelWorldId: String,
-
-    @Basic(optional = false)
-    var hotelName: String
-){
-    @Id @GeneratedValue
-    lateinit var id: UUID
-
-    @Transient
-    lateinit var hotelRegion: HotelRegion
-
-    @ManyToMany
-    val hotelHelpers: MutableSet<HotelHelper> = HashSet()
-
-    @OneToMany
-    val hotelRooms: MutableSet<Room> = HashSet()
-
-    @OneToOne
-    var hotelHome: HotelHome? = null
-}
+class HotelCreateEvent(var hotel : Hotel) : HotelsEvent()

@@ -26,8 +26,10 @@ class NoArgumentsException(commandUsage: String?) : HotelsException("No argument
 class NoPermissionException : HotelsException("No permission!", printCommandUsage = false)
 class NotEnoughArgumentsException(commandUsage: String?) : HotelsException("Not enough arguments!", commandUsage)
 class WorldNonExistentException(commandUsage: String?) : HotelsException("Specified world does not exist!", commandUsage)
-class WorldGuardException() : HotelsException("WorldGuard error!", printStackTrace = true)
+class WorldGuardException : HotelsException("WorldGuard error!", printStackTrace = true)
 class PlayerOnlyException : HotelsException("This command can only be run by a player", printCommandUsage = false)
+class InvalidRegionException : HotelsException("Region is not valid!", printCommandUsage = false)
+class InvalidHotelException : HotelsException("Specified hotel is not valid!")
 
 /**
  * For when there shouldn't be an exception thrown

@@ -20,11 +20,18 @@
 package kernitus.plugin.hotels.core.commands.subcommands
 
 import com.google.common.collect.ImmutableSet
+import com.sk89q.worldedit.bukkit.BukkitAdapter
 import kernitus.plugin.hotels.core.commands.HotelsCommand
 import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgument
 import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgumentOptionality
+import kernitus.plugin.hotels.core.events.HotelCreateEvent
+import kernitus.plugin.hotels.core.exceptions.InvalidHotelException
 import kernitus.plugin.hotels.core.exceptions.PlayerOnlyException
+import kernitus.plugin.hotels.core.hotel.Hotel
+import kernitus.plugin.hotels.core.hotel.HotelOwner
 import kernitus.plugin.hotels.core.permissions.HotelsPermission
+import kernitus.plugin.hotels.core.regions.HotelRegion
+import kernitus.plugin.hotels.core.regions.RegionManager
 import org.bukkit.entity.Player
 
 class CreateHotelCommand : HotelsCommand(arrayOf("create", "c"),
@@ -33,15 +40,24 @@ class CreateHotelCommand : HotelsCommand(arrayOf("create", "c"),
 
     override fun execute(player: Player?) {
         if(player == null) throw PlayerOnlyException()
-        val hotelName = getArgument(0).value
+        val hotelName = getArgument(0).value ?: throw InvalidHotelException()
+        val world = player.world
 
         player.sendMessage("Creating hotel $hotelName")
 
-        // PRECONDITIONS:
+        // TODO PRECONDITIONS:
         // player must have a region selected
-
         // region must not intersect already existing hotel regions
         // must not intersect regions with custom flag (no hotels)
         // they must have enough money to create hotel, (money scaling with size of region?)
+        // must not own more than max hotels owned
+
+        val hotelOwner = HotelOwner(player.uniqueId)
+        val hotel = Hotel(hotelOwner, world.uid.toString(), hotelName)
+        val hotelId = hotel.id
+        val protectedRegion = RegionManager.getProtectedRegion(player, hotelId.toString())
+        hotel.hotelRegion = HotelRegion(BukkitAdapter.adapt(world), hotelId.toString(), protectedRegion)
+
+        HotelCreateEvent(hotel).call()
     }
 }

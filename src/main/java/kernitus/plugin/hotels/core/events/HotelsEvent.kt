@@ -17,40 +17,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package kernitus.plugin.hotels.core.hotel
+package kernitus.plugin.hotels.core.events
 
-import kernitus.plugin.hotels.core.homes.HotelHome
-import kernitus.plugin.hotels.core.regions.HotelRegion
-import kernitus.plugin.hotels.core.room.Room
-import java.util.*
-import javax.persistence.*
+import org.bukkit.Bukkit
+import org.bukkit.event.Cancellable
+import org.bukkit.event.Event
+import org.bukkit.event.HandlerList
 
-/**
- * Represents a Hotel object
- */
-@Entity
-class Hotel (
-    @ManyToOne(optional = false)
-    var hotelOwner: HotelOwner,
+open class HotelsEvent : Event(), Cancellable {
 
-    @Basic(optional = false)
-    var hotelWorldId: String,
+    private val handlerList = HandlerList()
+    private var cancelled = false
 
-    @Basic(optional = false)
-    var hotelName: String
-){
-    @Id @GeneratedValue
-    lateinit var id: UUID
+    override fun getHandlers() = handlerList
+    override fun isCancelled() = cancelled
+    override fun setCancelled(cancel: Boolean) {
+        cancelled = cancel
+    }
 
-    @Transient
-    lateinit var hotelRegion: HotelRegion
-
-    @ManyToMany
-    val hotelHelpers: MutableSet<HotelHelper> = HashSet()
-
-    @OneToMany
-    val hotelRooms: MutableSet<Room> = HashSet()
-
-    @OneToOne
-    var hotelHome: HotelHome? = null
+    fun call() = Bukkit.getServer().pluginManager.callEvent(this)
 }

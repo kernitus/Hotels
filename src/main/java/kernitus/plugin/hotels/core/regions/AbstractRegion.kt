@@ -23,15 +23,19 @@ package kernitus.plugin.hotels.core.regions
 import com.sk89q.worldedit.world.World
 import com.sk89q.worldguard.domains.DefaultDomain
 import com.sk89q.worldguard.protection.regions.ProtectedRegion
+import kernitus.plugin.hotels.core.regions.RegionManager.REGION_PREFIX
 import java.util.*
 
 /**
  * Provides an abstraction for interfacing Hotel's classes with WorldGuard regions
  */
-abstract class AbstractRegion protected constructor(world: World, id: String) {
+abstract class AbstractRegion (val world: World, val id: String, val region: ProtectedRegion){
 
-    private val region: ProtectedRegion
-    private val REGION_PREFIX = "HOTELS_"
+    /**
+     * For already existing regions
+     * @param id The UUID of the object representing the region, i.e. a Hotel UUID
+     */
+    constructor(world: World, id: String) : this(world, id, RegionManager.getRegion(world, "$REGION_PREFIX$id"))
 
     private val members: DefaultDomain
         get() = region.members
@@ -39,23 +43,11 @@ abstract class AbstractRegion protected constructor(world: World, id: String) {
     private val owners: DefaultDomain
         get() = region.owners
 
-    init {
-        region = WorldGuardManager.getRegion(world, REGION_PREFIX + id)
-    }
+    fun addMember(playerId: UUID) = members.addPlayer(playerId)
 
-    fun addMember(playerId: UUID) {
-        members.addPlayer(playerId)
-    }
+    fun removeMember(playerId: UUID) = members.removePlayer(playerId)
 
-    fun removeMember(playerId: UUID) {
-        members.removePlayer(playerId)
-    }
+    fun addOwner(playerId: UUID) = owners.addPlayer(playerId)
 
-    fun addOwner(playerId: UUID) {
-        owners.addPlayer(playerId)
-    }
-
-    fun removeOwner(playerId: UUID) {
-        owners.removePlayer(playerId)
-    }
+    fun removeOwner(playerId: UUID) = owners.removePlayer(playerId)
 }
