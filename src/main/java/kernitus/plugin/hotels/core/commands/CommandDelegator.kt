@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableSet
 import kernitus.plugin.hotels.bukkit.Messaging
 import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgumentOptionality
 import kernitus.plugin.hotels.core.commands.subcommands.CreateHotelCommand
+import kernitus.plugin.hotels.core.commands.subcommands.HotelsHelpCommand
 import kernitus.plugin.hotels.core.commands.subcommands.ListAllHotelsCommand
 import kernitus.plugin.hotels.core.commands.subcommands.ListHotelsInWorldCommand
 import kernitus.plugin.hotels.core.exceptions.BruhMoment
@@ -48,7 +49,8 @@ object CommandDelegator {
         // Various versions of the same command with different arguments are grouped together
         val sets = ImmutableSet.of<Set<HotelsCommand>>(
                 ImmutableSet.of(ListHotelsInWorldCommand(), ListAllHotelsCommand()), // sort by highest amount of args first
-                ImmutableSet.of(CreateHotelCommand())
+                ImmutableSet.of(CreateHotelCommand()),
+                ImmutableSet.of(HotelsHelpCommand())
         )
 
         sets.forEach { set ->
@@ -61,6 +63,7 @@ object CommandDelegator {
     fun delegate(subcommand: String, args: Array<String>, player: Player? = null) {
         Messaging.send("Subcommand: $subcommand", player)
 
+        //if(subcommand.isBlank()) hotelsCommands["help"]
         if (hotelsCommands.containsKey(subcommand)) {
 
             val hotelsCommandSet = hotelsCommands[subcommand]
@@ -71,10 +74,7 @@ object CommandDelegator {
 
             if(hotelsCommandSet == null) throw lastException
 
-            var usedCommand = hotelsCommandSet.first()
-
             for (hotelsCommand in hotelsCommandSet) {
-                usedCommand = hotelsCommand
                 try {
                     hotelsCommand.acceptAndExecute(args, player) //Try to run command
                     ranSuccessfully = true //If it didn't go to catch clause, the command ran, so we can break here

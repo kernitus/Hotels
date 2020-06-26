@@ -22,7 +22,6 @@ package kernitus.plugin.hotels.bukkit
 
 import kernitus.plugin.hotels.core.commands.CommandDelegator
 import kernitus.plugin.hotels.core.exceptions.HotelsException
-import kernitus.plugin.hotels.core.exceptions.NoArgumentsException
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -34,8 +33,8 @@ class CommandListener : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
 
         try {
-            if (args.isEmpty()) throw NoArgumentsException("Show a list of all commands here")
-            CommandDelegator.delegate(args[0], args.copyOfRange(1, args.size), sender as? Player)
+            if(args.isEmpty()) CommandDelegator.delegate("", emptyArray(), sender as? Player)
+            else CommandDelegator.delegate(args[0], args.copyOfRange(1, args.size), sender as? Player)
         } catch (he: HotelsException) {
             Messaging.send(he.message, sender)
             if(he.printCommandUsage && he.commandUsage != null) Messaging.send(he.commandUsage, sender)
