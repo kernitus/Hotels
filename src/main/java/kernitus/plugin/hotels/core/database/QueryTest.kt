@@ -19,11 +19,9 @@
 
 package kernitus.plugin.hotels.core.database
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter
 import kernitus.plugin.hotels.core.exceptions.WorldNonExistentException
 import kernitus.plugin.hotels.core.hotel.Hotel
 import kernitus.plugin.hotels.core.hotel.HotelOwner
-import kernitus.plugin.hotels.core.regions.HotelRegion
 import org.bukkit.Bukkit
 import java.util.*
 
@@ -37,7 +35,7 @@ object QueryTest {
 
     fun addOwner() {
         val owner = HotelOwner(UUID.randomUUID())
-        val entityManager = HotelsQuery.entityManager
+        val entityManager = HotelsQuery.getEntityManager()
         val transaction = entityManager.transaction
 
         try {
@@ -56,14 +54,12 @@ object QueryTest {
         val owner = HotelOwner(UUID.randomUUID())
         val world = Bukkit.getWorld("world") ?: throw WorldNonExistentException("test")
         val hotel = Hotel(
-                id = UUID.randomUUID(),
                 hotelOwner = owner,
                 hotelWorldId = world.uid.toString(),
-                hotelName = "Test",
-                hotelRegion = HotelRegion(BukkitAdapter.adapt(world), "test")
+                hotelName = "Test"
         )
 
-        val entityManager = HotelsQuery.entityManager
+        val entityManager = HotelsQuery.getEntityManager()
         val transaction = entityManager.transaction
 
         try {

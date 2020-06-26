@@ -26,8 +26,7 @@ object HotelsQuery {
 
     private val entityManagerFactory = Persistence.createEntityManagerFactory("HotelsPU")
 
-    internal val entityManager: EntityManager
-        get() = entityManagerFactory.createEntityManager()
+    fun getEntityManager(): EntityManager = entityManagerFactory.createEntityManager()
 
     fun closeEntityManager() {
         entityManagerFactory.close()
@@ -40,7 +39,7 @@ object HotelsQuery {
     }
 
     fun <T> runSelectQuery(typedQuery: String, clazz: Class<T>): List<T> {
-        val entityManager = entityManager
+        val entityManager = getEntityManager()
         val resultList = entityManager.createQuery(typedQuery, clazz).resultList
         entityManager.close()
         return resultList
