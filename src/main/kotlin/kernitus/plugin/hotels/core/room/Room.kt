@@ -24,7 +24,6 @@ import kernitus.plugin.hotels.core.homes.RoomHome
 import kernitus.plugin.hotels.core.hotel.Hotel
 import kernitus.plugin.hotels.core.regions.RoomRegion
 import java.time.LocalDateTime
-import java.time.Period
 import java.util.*
 import javax.persistence.*
 
@@ -40,7 +39,7 @@ class Room (
     @Basic(optional = false)
     var roomNumber: Int,
     @Basic(optional = false)
-    var rentTime: Period,
+    var rentTime: Long, // in minutes
     @Basic(optional = false)
     var cost: Double,
     @Basic(optional = false)
