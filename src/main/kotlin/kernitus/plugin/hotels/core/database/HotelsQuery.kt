@@ -20,17 +20,20 @@
 package kernitus.plugin.hotels.core.database
 
 import javax.persistence.EntityManager
+import javax.persistence.EntityManagerFactory
 import javax.persistence.Persistence
 
 object HotelsQuery {
 
-    private val entityManagerFactory = Persistence.createEntityManagerFactory("HotelsPU")
+    private lateinit var entityManagerFactory : EntityManagerFactory
+
+    fun initialise() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("HotelsPU")
+    }
 
     fun getEntityManager(): EntityManager = entityManagerFactory.createEntityManager()
 
-    fun closeEntityManager() {
-        entityManagerFactory.close()
-    }
+    fun closeEntityManagerFactory() = entityManagerFactory.close()
 
     fun <T> getAll(clazz: Class<T>): List<T> {
         val className = clazz.simpleName

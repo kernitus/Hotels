@@ -24,6 +24,8 @@ import kernitus.plugin.hotels.core.commands.arguments.HotelsCommandArgumentOptio
 import kernitus.plugin.hotels.core.exceptions.NoPermissionException
 import kernitus.plugin.hotels.core.exceptions.NotEnoughArgumentsException
 import kernitus.plugin.hotels.core.permissions.HotelsPermission
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import org.bukkit.entity.Player
 
 /**
@@ -85,7 +87,7 @@ abstract class HotelsCommand(val labels: Array<String>, private val arguments: S
      */
     fun acceptAndExecute(args: Array<String>, player: Player?) {
         acceptArguments(args, player)
-        if (hasPermission(player)) execute(player)
+        if (hasPermission(player)) GlobalScope.async { execute(player) }
         else throw NoPermissionException()
     }
 

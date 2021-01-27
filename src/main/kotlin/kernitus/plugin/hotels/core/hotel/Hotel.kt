@@ -40,7 +40,7 @@ class Hotel (
     var hotelName: String
 ){
     @Id @GeneratedValue
-    lateinit var id: UUID
+    var id: UUID? = null
 
     @Transient
     lateinit var hotelRegion: HotelRegion

@@ -21,7 +21,6 @@
 package kernitus.plugin.hotels.core.homes
 
 import kernitus.plugin.hotels.core.hotel.Hotel
-import java.util.*
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.OneToOne
@@ -31,5 +30,5 @@ class HotelHome(@OneToOne(optional = false) val hotel: Hotel,
                      x: Int, y: Int, z: Int, pitch: Float, yaw: Float) :
         AbstractHome(x,y,z,pitch,yaw) {
     @Id
-    private val hotelId: UUID = hotel.id
+    private val hotelId = hotel.id
 }

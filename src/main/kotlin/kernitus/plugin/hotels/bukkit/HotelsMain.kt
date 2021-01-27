@@ -21,6 +21,8 @@
 package kernitus.plugin.hotels.bukkit
 
 import kernitus.plugin.hotels.core.database.HotelsQuery
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import org.bukkit.plugin.java.JavaPlugin
 
 class HotelsMain : JavaPlugin() {
@@ -28,17 +30,27 @@ class HotelsMain : JavaPlugin() {
     override fun onEnable() {
         logger.info("Hotels v" + description.version + " has been enabled")
 
-        //For JPA classloader to work correctly
-        Thread.currentThread().contextClassLoader = classLoader
-
         val hotelsCommand = getCommand("hotels")
         val commandListener = CommandListener()
         hotelsCommand?.setExecutor(commandListener)
         hotelsCommand?.tabCompleter = commandListener
+
+        GlobalScope.async { loadJPA() }
     }
 
     override fun onDisable() {
-        HotelsQuery.closeEntityManager()
+        unloadJPA()
         logger.info("Hotels v" + description.version + " has been disabled")
+    }
+
+    private fun loadJPA() {
+        //For JPA classloader to work correctly
+        Thread.currentThread().contextClassLoader = classLoader
+        HotelsQuery.initialise()
+        logger.info("Loaded JPA Connection")
+    }
+
+    private fun unloadJPA() {
+        HotelsQuery.closeEntityManagerFactory()
     }
 }
